@@ -1,4 +1,4 @@
-@include('partials.header', ['title' => 'Login'])
+@include('partials.header', ['title' => 'Register'])
 @include('partials.scripts')
 
 <body>
@@ -24,12 +24,12 @@
                                 <div class="card-body">
 
                                     <div class="pt-4 pb-2">
-                                        <h5 class="card-title text-center pb-0 fs-4">Login to Your Account</h5>
-                                        <p class="text-center small">Enter your email & password to login</p>
+                                        <h5 class="card-title text-center pb-0 fs-4">Create an Account</h5>
+                                        <p class="text-center small">Enter your personal details to create account</p>
                                     </div>
 
                                     <form class="row g-3 needs-validation" novalidate
-                                        action="{{ route('login.process') }}" method="POST">
+                                        action="{{ route('register.process') }}" method="POST">
                                         @csrf
                                         @if ($errors->any())
                                             <div class="alert alert-danger alert-dismissible fade show d-flex align-items-center">
@@ -43,34 +43,48 @@
                                             </div>                                            
                                         @endif
                                         <div class="col-12">
-                                            <label for="yourEmail" class="form-label">Email</label>
-                                            <div class="input-group has-validation">
-                                                <input type="email" name="email" class="form-control" placeholder="Input your email"
-                                                    id="yourEmail" value="{{old('email')}}" required>
-                                                <div class="invalid-feedback">Please enter your email.</div>
-                                            </div>
+                                            <label for="yourName" class="form-label">Your Name</label>
+                                            <input type="text" name="name" class="form-control" id="yourName"
+                                                required placeholder="Input your name">
+                                            <div class="invalid-feedback">Please, enter your name!</div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <label for="yourEmail" class="form-label">Your Email</label>
+                                            <input type="email" name="email" class="form-control" id="yourEmail"
+                                                required placeholder="Input your email">
+                                            <div class="invalid-feedback">Please enter a valid Email adddress!</div>
                                         </div>
 
                                         <div class="col-12">
                                             <label for="yourPassword" class="form-label">Password</label>
-                                            <input type="password" name="password" class="form-control" placeholder="Input your password"
-                                                id="yourPassword" required>
+                                            <input type="password" name="password" class="form-control"
+                                                id="yourPassword" required placeholder="input your password">
                                             <div class="invalid-feedback">Please enter your password!</div>
                                         </div>
 
                                         <div class="col-12">
+                                            <label for="yourPassword" class="form-label">Confirm Password</label>
+                                            <input type="password" name="password_confirmation" class="form-control"
+                                                id="yourPassword" required placeholder="Confirm your password">
+                                            <div class="invalid-feedback">Please confirm your password!</div>
+                                        </div>
+
+                                        <div class="col-12">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" name="remember"
-                                                    value="true" id="rememberMe">
-                                                <label class="form-check-label" for="rememberMe">Remember me</label>
+                                                <input class="form-check-input" name="terms" type="checkbox"
+                                                    value="" id="acceptTerms" required>
+                                                <label class="form-check-label" for="acceptTerms">I agree and accept the
+                                                    <a href="#">terms and conditions</a></label>
+                                                <div class="invalid-feedback">You must agree before submitting.</div>
                                             </div>
                                         </div>
                                         <div class="col-12">
-                                            <button class="btn btn-primary w-100" type="submit">Login</button>
+                                            <button class="btn btn-primary w-100" type="submit">Create Account</button>
                                         </div>
                                         <div class="col-12">
-                                            <p class="small mb-0">Don't have account? <a
-                                                    href="{{route('register')}}">Create an account</a></p>
+                                            <p class="small mb-0">Already have an account? <a
+                                                    href="{{ route('login') }}">Log in</a></p>
                                         </div>
                                     </form>
 
@@ -93,7 +107,6 @@
 
         </div>
     </main><!-- End #main -->
-
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
             class="bi bi-arrow-up-short"></i></a>
 
