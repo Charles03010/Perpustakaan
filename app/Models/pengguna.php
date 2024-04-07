@@ -10,6 +10,7 @@ class pengguna extends Authenticatable
 {
     use HasFactory;
     protected $table = 'pengguna';
+    protected $primaryKey = 'id_pengguna';
     protected $hidden = ['password'];
     
 }

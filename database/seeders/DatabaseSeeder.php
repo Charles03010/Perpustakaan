@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
         ]);
         \App\Models\Pengguna::factory()->create([
             'nama' => "Veranda",
-            'email' => "veranda@admin.ve",
+            'email' => "veranda@pengguna.ve",
             'password' => Hash::make("pengguna"),
             'role' => "pengguna",
         ]);
