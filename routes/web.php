@@ -27,13 +27,29 @@ Route::get('/register', function () {
 })->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login.process');
 Route::post('/register', [AuthController::class, 'register'])->name('register.process');
-Route::get('/logout', [AuthController::class, 'logout'])->name('login.logout');
+Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->group(function () {
     Route::middleware('role:admin')->group(function () {
         Route::get('/dashboard-admin', function () {
             return view('dashboard-admin');
-        });
+        })->name('dashboard-admin');
+        Route::get('/peminjaman-admin', function () {
+            return view('peminjaman-admin');
+        })->name('peminjaman-admin');
+        Route::get('/pengarang-admin', function () {
+            return view('pengarang-admin');
+        })->name('pengarang-admin');
+        Route::get('/penerbit-admin', function () {
+            return view('penerbit-admin');
+        })->name('penerbit-admin');
+        Route::get('/buku-admin', function () {
+            return view('buku-admin');
+        })->name('buku-admin');
+        Route::get('/skripsi-admin', function () {
+            return view('skripsi-admin');
+        })->name('skripsi-admin');
+
     });
 
     Route::middleware('role:pengguna')->group(function () {
