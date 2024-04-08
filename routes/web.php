@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Models\Pengarang;
 
 /*
 |--------------------------------------------------------------------------
@@ -49,7 +51,15 @@ Route::middleware('auth')->group(function () {
         Route::get('/skripsi-admin', function () {
             return view('skripsi-admin');
         })->name('skripsi-admin');
-
+        
+        Route::get('/pengarang-admin/tambah', function () {
+            return view('func.tambah-pengarang-admin');
+        })->name('tambah-pengarang-admin');
+        Route::post('/pengarang-admin/tambah', [AdminController::class, 'add'])->name('add.process');
+        Route::get('/pengarang-admin/edit/{id}', function ($id) {
+            $pengarang = Pengarang::findOrFail($id);
+            return view('func.tambah-pengarang-admin', ['pengarang' => $pengarang]);
+        })->name('edit-pengarang-admin');
     });
 
     Route::middleware('role:pengguna')->group(function () {

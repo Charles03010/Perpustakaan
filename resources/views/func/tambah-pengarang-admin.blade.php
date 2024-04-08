@@ -28,7 +28,7 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">Pengarang</h5>
-                                    <a href="{{route('tambah-pengarang-admin')}}" class="btn btn-primary">
+                                    <a href="" class="btn btn-primary">
                                         <i class="bi bi-plus-square"></i>
                                         Tambah Data
                                     </a>
