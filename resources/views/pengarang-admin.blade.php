@@ -19,7 +19,6 @@
                 </ol>
             </nav>
         </div><!-- End Page Title -->
-
         <section class="section dashboard">
             <div class="row">
                 <div class="col-lg-12">
@@ -28,7 +27,7 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">Pengarang</h5>
-                                    <a href="{{route('tambah-pengarang-admin')}}" class="btn btn-primary">
+                                    <a href="{{ route('tambah-pengarang-admin') }}" class="btn btn-primary">
                                         <i class="bi bi-plus-square"></i>
                                         Tambah Data
                                     </a>
@@ -44,21 +43,23 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr class="align-middle">
-                                                <td class="max-content" scope="row">1</td>
-                                                <td class="max-content">
-                                                  <a href="" class="w-3 p-2 rounded bg-danger me-2">
-                                                    <i class="bi bi-trash text-white"></i>
-                                                  </a>
-                                                  <a href="" class="w-3 p-2 rounded bg-warning">
-                                                    <i class="bi bi-pencil text-white"></i>
-                                                  </a>
-                                                </td>
-                                                <td>Brandon Jacob</td>
-                                                <td>Brandon@gmail.com</td>
-                                                <td>081389905680</td>
-                                                <td>Kampus 1 UTY Jombor</td>
-                                            </tr>
+                                            @foreach ($pengarang as $item)
+                                                <tr class="align-middle">
+                                                    <td class="max-content" scope="row">{{ $loop->iteration }}</td>
+                                                    <td class="max-content">
+                                                        <a href="{{ route('delete-pengarang-admin',$item->id_pengarang) }}" class="w-3 p-2 rounded bg-danger me-2">
+                                                            <i class="bi bi-trash text-white"></i>
+                                                        </a>
+                                                        <a href="{{ route('edit-pengarang-admin',$item->id_pengarang) }}" class="w-3 p-2 rounded bg-warning">
+                                                            <i class="bi bi-pencil text-white"></i>
+                                                        </a>
+                                                    </td>
+                                                    <td>{{ $item->nama }}</td>
+                                                    <td>{{ $item->email }}</td>
+                                                    <td>{{ $item->no_hp }}</td>
+                                                    <td>{{ $item->alamat }}</td>
+                                                </tr>
+                                            @endforeach
 
                                         </tbody>
                                     </table>

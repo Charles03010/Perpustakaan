@@ -40,7 +40,7 @@ Route::middleware('auth')->group(function () {
             return view('peminjaman-admin');
         })->name('peminjaman-admin');
         Route::get('/pengarang-admin', function () {
-            return view('pengarang-admin');
+            return view('pengarang-admin', ['pengarang' => Pengarang::all()]);
         })->name('pengarang-admin');
         Route::get('/penerbit-admin', function () {
             return view('penerbit-admin');
@@ -51,7 +51,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/skripsi-admin', function () {
             return view('skripsi-admin');
         })->name('skripsi-admin');
-        
+
         Route::get('/pengarang-admin/tambah', function () {
             return view('func.tambah-pengarang-admin');
         })->name('tambah-pengarang-admin');
@@ -60,6 +60,11 @@ Route::middleware('auth')->group(function () {
             $pengarang = Pengarang::findOrFail($id);
             return view('func.tambah-pengarang-admin', ['pengarang' => $pengarang]);
         })->name('edit-pengarang-admin');
+        Route::get('/pengarang-admin/delete/{id}', function ($id) {
+            $pengarang = Pengarang::findOrFail($id);
+            $pengarang->delete();
+            return redirect()->route('pengarang-admin');
+        })->name('delete-pengarang-admin');
     });
 
     Route::middleware('role:pengguna')->group(function () {

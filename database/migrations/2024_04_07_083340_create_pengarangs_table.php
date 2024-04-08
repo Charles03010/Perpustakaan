@@ -17,18 +17,18 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('no_hp');
             $table->string('alamat');
-            $table->string('foto');
+            $table->string('foto')->nullable();
             $table->string('deskripsi');
             $table->string('slug');
             $table->enum('jenis_kelamin',['L','P']);
             $table->date('tanggal_lahir');
             $table->string('tempat_lahir');
-            $table->string('pendidikan_terakhir');
-            $table->string('pekerjaan');
-            $table->string('pengalaman_kerja');
-            $table->string('riwayat_pendidikan');
-            $table->string('riwayat_pekerjaan');
-            $table->string('penghargaan');
+            $table->string('pendidikan_terakhir')->nullable();
+            $table->string('pekerjaan')->nullable();
+            $table->string('pengalaman_kerja')->nullable();
+            $table->string('riwayat_pendidikan')->nullable();
+            $table->string('riwayat_pekerjaan')->nullable();
+            $table->string('penghargaan')->nullable();
             $table->timestamps();
         });
     }

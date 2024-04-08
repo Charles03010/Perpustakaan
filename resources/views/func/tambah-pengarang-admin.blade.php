@@ -27,42 +27,141 @@
                         <div class="col-xxl-12 col-md-6">
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="card-title">Pengarang</h5>
-                                    <a href="" class="btn btn-primary">
-                                        <i class="bi bi-plus-square"></i>
-                                        Tambah Data
-                                    </a>
-                                    <!-- Table with hoverable rows -->
-                                    <table class="table table-hover table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col" colspan="2">No.</th>
-                                                <th scope="col">Nama</th>
-                                                <th scope="col">Email</th>
-                                                <th scope="col">No HP</th>
-                                                <th scope="col">Alamat</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr class="align-middle">
-                                                <td class="max-content" scope="row">1</td>
-                                                <td class="max-content">
-                                                  <a href="" class="w-3 p-2 rounded bg-danger me-2">
-                                                    <i class="bi bi-trash text-white"></i>
-                                                  </a>
-                                                  <a href="" class="w-3 p-2 rounded bg-warning">
-                                                    <i class="bi bi-pencil text-white"></i>
-                                                  </a>
-                                                </td>
-                                                <td>Brandon Jacob</td>
-                                                <td>Brandon@gmail.com</td>
-                                                <td>081389905680</td>
-                                                <td>Kampus 1 UTY Jombor</td>
-                                            </tr>
+                                    <h5 class="card-title">Tambah Data Pengarang</h5>
 
-                                        </tbody>
-                                    </table>
-                                    <!-- End Table with hoverable rows -->
+                                    <!-- Floating Labels Form -->
+                                    <form class="row g-3" action="{{ route('add.process') }}" method="POST">
+                                        @csrf
+                                        @if ($errors->any())
+                                            <div class="alert alert-danger alert-dismissible fade show d-flex align-items-center">
+                                                <i class="bi bi-exclamation-octagon me-1"></i>
+                                                <ul class="mb-0">
+                                                    @foreach ($errors->all() as $error)
+                                                        <li>{{ $error }}</li>
+                                                    @endforeach
+                                                </ul>
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                            </div>                                            
+                                        @endif
+                                        <div class="col-md-4">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" id="nama"
+                                                    placeholder="Nama Pengarang" name="nama" value="{{old('nama')}}" required>
+                                                <label for="nama">Nama Pengarang</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-floating">
+                                                <input type="email" class="form-control" id="floatingEmail"
+                                                    placeholder="Email Pengarang" name="email" value="{{old('email')}}" required>
+                                                <label for="floatingEmail">Email Pengarang</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" id="no"
+                                                    placeholder="Nomor Telepon Pengarang" name="no" value="{{old('no')}}" required>
+                                                <label for="no">Nomor Telepon Pengarang</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" id="pendidikanTerakhir"
+                                                    placeholder="Pendidikan Terakhir Pengarang"
+                                                    name="pendidikanTerakhir" value="{{old('pendidikanTerakhir')}}">
+                                                <label for="pendidikanTerakhir">Pendidikan Terakhir Pengarang</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" id="pendidikanRiwayat"
+                                                    placeholder="Riwayat Pendidikan Pengarang" name="pendidikanRiwayat" value="{{old('pendidikanRiwayat')}}">
+                                                <label for="pendidikanRiwayat">Riwayat Pendidikan Pengarang</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" id="penghargaan"
+                                                    placeholder="Penghargaan Pengarang" name="penghargaan" value="{{old('penghargaan')}}">
+                                                <label for="penghargaan">Penghargaan Pengarang</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" id="pekerjaan"
+                                                    placeholder="Pekerjaan Pengarang" name="pekerjaan" value="{{old('pekerjaan')}}">
+                                                <label for="pekerjaan">Pekerjaan Pengarang</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" id="pengalamanKerja"
+                                                    placeholder="Pengalaman Kerja Pengarang" name="pengalamanKerja" value="{{old('pengalamanKerja')}}">
+                                                <label for="pengalamanKerja">Pengalaman Kerja Pengarang</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" id="riwayatPekerjaan"
+                                                    placeholder="Riwayat Pekerjaan Pengarang" name="riwayatPekerjaan" value="{{old('riwayatPekerjaan')}}">
+                                                <label for="riwayatPekerjaan">Riwayat Pekerjaan Pengarang</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-floating mb-3">
+                                                <select class="form-select" id="floatingSelect" aria-label="State" name="jenisKelamin"
+                                                    required>
+                                                    <option value="" hidden>Pilih Jenis Kelamin</option>
+                                                    <option value="L" <?= old('jenisKelamin') == 'L'?"selected":"" ?>>Laki-Laki</option>
+                                                    <option value="P" <?= old('jenisKelamin') == 'P'?"selected":"" ?>>Perempuan</option>
+                                                </select>
+                                                <label for="floatingSelect">Jenis Kelamin</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" id="foto"
+                                                    placeholder="foto" name="foto" value="{{old('foto')}}">
+                                                <label for="foto">foto</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" id="tempatLahir"
+                                                    placeholder="Tempat Lahir Pengarang" name="tempatLahir" required value="{{old('tempatLahir')}}">
+                                                <label for="tempatLahir">Tempat Lahir Pengarang</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-floating">
+                                                <input type="date" class="form-control" id="tanggalLahir"
+                                                    placeholder="Tanggal Lahir Pengarang" name="tanggalLahir" required value="{{old('tanggalLahir')}}">
+                                                <label for="tanggalLahir">Tanggal Lahir Pengarang</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-floating">
+                                                <textarea class="form-control" placeholder="Deskripsi Pengarang" id="floatingTextarea" style="height: 100px;"
+                                                    required name="desk">{{old('desk')}}</textarea>
+                                                <label for="floatingTextarea">Deskripsi Pengarang</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-floating">
+                                                <textarea class="form-control" placeholder="Alamat Pengarang" id="floatingTextarea" style="height: 100px;" required
+                                                    name="alamat">{{old('alamat')}}</textarea>
+                                                <label for="floatingTextarea">Alamat Pengarang</label>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="text-center">
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                            <button type="reset" class="btn btn-secondary">Reset</button>
+                                        </div>
+                                    </form><!-- End floating Labels Form -->
+
                                 </div>
                             </div>
                         </div>
