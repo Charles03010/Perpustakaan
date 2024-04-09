@@ -63,11 +63,10 @@ Route::middleware('auth')->group(function () {
         })->name('edit-pengarang-admin');
         Route::get('/pengarang-admin/delete/{id}', function ($id) {
             $pengarang = Pengarang::findOrFail($id);
-            if($pengarang->foto != 'default.jpg'){
-                if(Storage::delete('public/'.$pengarang->foto)){
-                    $pengarang->delete();
-                };
-            }
+            if ($pengarang->foto != 'default.jpg') {
+                Storage::delete('public/' . $pengarang->foto);
+            };
+            $pengarang->delete();
             return redirect()->route('pengarang-admin');
         })->name('delete-pengarang-admin');
         Route::get('/pengarang-admin/detail/{id}', function ($id) {
