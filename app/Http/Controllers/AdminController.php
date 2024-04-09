@@ -11,6 +11,13 @@ class AdminController extends Controller
     //
     public function add(Request $request)
     {
+        if (empty($request->id_pengarang)) {
+            $request->validate([
+                'email' => 'unique:pengarang,email',
+            ], [
+                'email.unique' => 'Email sudah terpakai',
+            ]);
+        };
         $request->validate([
             'email' => 'required|email',
             'nama' => 'required',
@@ -33,7 +40,9 @@ class AdminController extends Controller
             'tempatLahir.required' => 'Tempat Lahir tidak boleh kosong',
             'desk.required' => 'Deskripsi tidak boleh kosong',
         ]);
-        if (Pengarang::create([
+        if (Pengarang::updateOrCreate([
+            'id_pengarang' => $request->id_pengarang,
+        ], [
             'nama' => $request->nama,
             'email' => $request->email,
             'no_hp' => $request->no,
@@ -51,7 +60,7 @@ class AdminController extends Controller
             'riwayat_pekerjaan' => $request->riwayatPekerjaan,
             'penghargaan' => $request->penghargaan,
         ])) {
-            return redirect('/pengarang-admin')->with('success', 'Pengarang berhasil ditambahkan');
+            return redirect('/pengarang-admin')->with('success', 'Pengarang berhasil dijalankan');
         }
         return back()->withErrors('Maaf Proses Gagal')->withInput();
     }

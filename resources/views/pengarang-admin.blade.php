@@ -6,7 +6,7 @@
     <!-- ======= Header ======= -->
     @include('components.header')
 
-    @include('partials.sidebar', ['active' => 'dashboard'])
+    @include('partials.sidebar', ['active' => 'pengarang'])
 
     <main id="main" class="main">
 
