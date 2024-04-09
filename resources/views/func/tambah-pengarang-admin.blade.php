@@ -24,7 +24,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="row">
-                        <div class="col-xxl-12 col-md-6">
+                        <div class="col-xxl-12 col-md-12">
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">

@@ -23,7 +23,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="row">
-                        <div class="col-xxl-12 col-md-6">
+                        <div class="col-xxl-12 col-md-12">
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">Pengarang</h5>
@@ -50,8 +50,11 @@
                                                         <a href="{{ route('delete-pengarang-admin',$item->id_pengarang) }}" class="w-3 p-2 rounded bg-danger me-2">
                                                             <i class="bi bi-trash text-white"></i>
                                                         </a>
-                                                        <a href="{{ route('edit-pengarang-admin',$item->id_pengarang) }}" class="w-3 p-2 rounded bg-warning">
+                                                        <a href="{{ route('edit-pengarang-admin',$item->id_pengarang) }}" class="w-3 p-2 rounded bg-warning me-2">
                                                             <i class="bi bi-pencil text-white"></i>
+                                                        </a>
+                                                        <a href="{{ route('detail-pengarang-admin',$item->id_pengarang) }}" class="w-3 p-2 rounded bg-primary">
+                                                            <i class="bi bi-eye text-white"></i>
                                                         </a>
                                                     </td>
                                                     <td>{{ $item->nama }}</td>

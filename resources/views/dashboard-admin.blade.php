@@ -112,7 +112,7 @@
 
                             </div>
                         </div><!-- End Sales Card -->
-                        <div class="col-xxl-12 col-md-6">
+                        <div class="col-xxl-12 col-md-12">
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">Riwayat Peminjaman</h5>

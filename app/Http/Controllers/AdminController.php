@@ -20,22 +20,23 @@ class AdminController extends Controller
                 'email.unique' => 'Email sudah terpakai',
             ]);
             if ($request->foto) {
-                $path = $request->file('foto')->store('images');
-            }else{
+                $path = $request->file('foto')->store('images', ['disk' => 'public']);
+            } else {
                 $path = 'default.jpg';
             }
         } else {
             $path = $request->fotoOld;
             $check = Pengarang::find($request->id_pengarang);
-            if($check->email != $request->email){
+            if ($check->email != $request->email) {
                 $request->validate([
                     'email' => 'unique:pengarang,email',
                 ], [
                     'email.unique' => 'Email sudah terpakai',
                 ]);
-            }else if($check->foto != $request->foto){
-                Storage::delete($check->foto);
-                $path = $request->file('foto')->store('images');
+            } else if ($request->foto) {
+                if (Storage::delete('public/'.$check->foto)) {
+                    $path = $request->file('foto')->store('images', ['disk' => 'public']);
+                }
             }
         };
         $request->validate([

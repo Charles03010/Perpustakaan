@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Models\Pengarang;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,9 +63,17 @@ Route::middleware('auth')->group(function () {
         })->name('edit-pengarang-admin');
         Route::get('/pengarang-admin/delete/{id}', function ($id) {
             $pengarang = Pengarang::findOrFail($id);
-            $pengarang->delete();
+            if($pengarang->foto != 'default.jpg'){
+                if(Storage::delete('public/'.$pengarang->foto)){
+                    $pengarang->delete();
+                };
+            }
             return redirect()->route('pengarang-admin');
         })->name('delete-pengarang-admin');
+        Route::get('/pengarang-admin/detail/{id}', function ($id) {
+            $pengarang = Pengarang::findOrFail($id);
+            return view('func.detail-pengarang-admin', ['pengarang' => $pengarang]);
+        })->name('detail-pengarang-admin');
     });
 
     Route::middleware('role:pengguna')->group(function () {
