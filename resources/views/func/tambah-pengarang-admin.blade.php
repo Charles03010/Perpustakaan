@@ -31,7 +31,7 @@
                                         {{ empty($pengarang) ? 'Tambah Data Pengarang' : 'Edit Data Pengarang' }}</h5>
 
                                     <!-- Floating Labels Form -->
-                                    <form class="row g-3" action="{{ route('add.process') }}" method="POST">
+                                    <form class="row g-3" action="{{ route('add.process') }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         @if ($errors->any())
                                             <div
@@ -50,6 +50,7 @@
                                             @empty(!$pengarang)
                                                 <input type="hidden" name="id_pengarang"
                                                     value="{{ $pengarang->id_pengarang }}">
+                                                <input type="hidden" name="fotoOld" value="{{ $pengarang->foto }}">
                                             @endempty
                                         @endisset
                                         <div class="col-md-4">
@@ -145,9 +146,8 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-floating">
-                                                <input type="text" class="form-control" id="foto"
-                                                    placeholder="foto" name="foto"
-                                                    value="{{ empty($pengarang) ? old('foto') : $pengarang->foto }}">
+                                                <input type="file" class="form-control" id="foto"
+                                                    placeholder="foto" name="foto" accept="image/*">
                                                 <label for="foto">foto</label>
                                             </div>
                                         </div>
@@ -186,7 +186,6 @@
 
                                         <div class="text-center">
                                             <button type="submit" class="btn btn-primary">Submit</button>
-                                            <button type="reset" class="btn btn-secondary">Reset</button>
                                         </div>
                                     </form><!-- End floating Labels Form -->
 
