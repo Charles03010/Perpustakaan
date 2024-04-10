@@ -6,8 +6,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Models\DetailBuku;
 use App\Models\DetailSkripsi;
+use App\Models\Fakultas;
+use App\Models\Kategori;
 use App\Models\Penerbit;
 use App\Models\Pengarang;
+use App\Models\Prodi;
 use Illuminate\Support\Facades\Storage;
 
 /*
@@ -49,12 +52,21 @@ Route::middleware('auth')->group(function () {
         Route::get('/penerbit-admin', function () {
             return view('penerbit-admin',['penerbit' => Penerbit::all()]);
         })->name('penerbit-admin');
+        Route::get('/kategori-admin', function () {
+            return view('kategori-admin',['kategori' => Kategori::all()]);
+        })->name('kategori-admin');
+        Route::get('/fakultas-admin', function () {
+            return view('fakultas-admin',['fakultas' => Fakultas::all()]);
+        })->name('fakultas-admin');
+        Route::get('/prodi-admin', function () {
+            return view('prodi-admin',['prodi' => Prodi::all()]);
+        })->name('prodi-admin');
         Route::get('/buku-admin', function () {
-            return view('buku-admin');
-        })->name('buku-admin',['buku' => DetailBuku::all()]);
+            return view('buku-admin',['buku' => DetailBuku::all()]);
+        })->name('buku-admin');
         Route::get('/skripsi-admin', function () {
-            return view('skripsi-admin');
-        })->name('skripsi-admin',['skripsi' => DetailSkripsi::all()]);
+            return view('skripsi-admin',['skripsi' => DetailSkripsi::all()]);
+        })->name('skripsi-admin');
 
         // Pengarang
         Route::get('/pengarang-admin/tambah', function () {
@@ -99,6 +111,79 @@ Route::middleware('auth')->group(function () {
             $penerbit = Penerbit::findOrFail($id);
             return view('func.detail-penerbit-admin', ['penerbit' => $penerbit]);
         })->name('detail-penerbit-admin');
+
+        // Kategori
+        Route::get('/kategori-admin/tambah', function () {
+            return view('func.tambah-kategori-admin');
+        })->name('tambah-kategori-admin');
+        Route::post('/kategori-admin/tambah', [AdminController::class, 'addKategori'])->name('addKategori.process');
+        Route::get('/kategori-admin/edit/{id}', function ($id) {
+            $kategori = Kategori::findOrFail($id);
+            return view('func.tambah-kategori-admin', ['kategori' => $kategori]);
+        })->name('edit-kategori-admin');
+        Route::get('/kategori-admin/delete/{id}', function ($id) {
+            $kategori = Kategori::findOrFail($id);
+            $kategori->delete();
+            return redirect()->route('kategori-admin');
+        })->name('delete-kategori-admin');
+        
+        // Fakultas
+        Route::get('/fakultas-admin/tambah', function () {
+            return view('func.tambah-fakultas-admin');
+        })->name('tambah-fakultas-admin');
+        Route::post('/fakultas-admin/tambah', [AdminController::class, 'addFakultas'])->name('addFakultas.process');
+        Route::get('/fakultas-admin/edit/{id}', function ($id) {
+            $fakultas = Fakultas::findOrFail($id);
+            return view('func.tambah-fakultas-admin', ['fakultas' => $fakultas]);
+        })->name('edit-fakultas-admin');
+        Route::get('/fakultas-admin/delete/{id}', function ($id) {
+            $fakultas = Fakultas::findOrFail($id);
+            if ($fakultas->foto != 'default.jpg') {
+                Storage::delete('public/' . $fakultas->foto);
+            };
+            $fakultas->delete();
+            return redirect()->route('fakultas-admin');
+        })->name('delete-fakultas-admin');
+        
+        // prodi
+        Route::get('/prodi-admin/tambah', function () {
+            return view('func.tambah-prodi-admin');
+        })->name('tambah-prodi-admin');
+        Route::post('/prodi-admin/tambah', [AdminController::class, 'addProdi'])->name('addProdi.process');
+        Route::get('/prodi-admin/edit/{id}', function ($id) {
+            $prodi = Prodi::findOrFail($id);
+            return view('func.tambah-prodi-admin', ['prodi' => $prodi]);
+        })->name('edit-prodi-admin');
+        Route::get('/prodi-admin/delete/{id}', function ($id) {
+            $prodi = Prodi::findOrFail($id);
+            if ($prodi->foto != 'default.jpg') {
+                Storage::delete('public/' . $prodi->foto);
+            };
+            $prodi->delete();
+            return redirect()->route('prodi-admin');
+        })->name('delete-prodi-admin');
+
+        // Buku
+        Route::get('/buku-admin/tambah', function () {
+            return view('func.tambah-buku-admin');
+        })->name('tambah-buku-admin');
+        Route::post('/buku-admin/tambah', [AdminController::class, 'addBuku'])->name('addBuku.process');
+        Route::get('/buku-admin/edit/{id}', function ($id) {
+            $buku = DetailBuku::findOrFail($id);
+            return view('func.tambah-buku-admin', ['buku' => $buku]);
+        })->name('edit-buku-admin');
+        Route::get('/buku-admin/delete/{id}', function ($id) {
+            $buku = DetailBuku::findOrFail($id);
+            if ($buku->foto != 'default.jpg') {
+                Storage::delete('public/' . $buku->foto);
+            };
+            $buku->delete();
+            return redirect()->route('buku-admin');
+        })->name('delete-buku-admin');
+        Route::get('/buku-admin/detail/{id}', function ($id) {
+            $buku = DetailBuku::findOrFail($id);
+            return view('func.detail-buku-admin', ['buku' => $buku]);
+        })->name('detail-buku-admin');
     });
 
     Route::middleware('role:pengguna')->group(function () {

@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Fakultas;
+use App\Models\Kategori;
 use App\Models\Penerbit;
 use App\Models\Pengarang;
 use App\Models\pengguna;
+use App\Models\Prodi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -35,7 +38,7 @@ class AdminController extends Controller
                     'email.unique' => 'Email sudah terpakai',
                 ]);
             } else if ($request->foto) {
-                if (Storage::delete('public/'.$check->foto)) {
+                if (Storage::delete('public/' . $check->foto)) {
                     $path = $request->file('foto')->store('pengarang', ['disk' => 'public']);
                 }
             }
@@ -114,7 +117,7 @@ class AdminController extends Controller
                     'email.unique' => 'Email sudah terpakai',
                 ]);
             } else if ($request->foto) {
-                if (Storage::delete('public/'.$check->foto)) {
+                if (Storage::delete('public/' . $check->foto)) {
                     $path = $request->file('foto')->store('penerbit', ['disk' => 'public']);
                 }
             }
@@ -150,6 +153,147 @@ class AdminController extends Controller
             'slug' => Str::slug($request->nama),
         ])) {
             return redirect('/penerbit-admin')->with('success', 'penerbit berhasil dijalankan');
+        }
+        return back()->withErrors('Maaf Proses Gagal')->withInput();
+    }
+
+    public function addKategori(Request $request)
+    {
+        if (empty($request->id_kategori)) {
+            $request->validate([
+                'nama' => 'unique:kategori,nama_kategori',
+            ], [
+                'nama.unique' => 'Kategori sudah tersedia',
+            ]);
+        }else{
+            $check = Kategori::find($request->id_kategori);
+            if ($check->nama_kategori != $request->nama) {
+                $request->validate([
+                    'nama' => 'unique:kategori,nama_kategori',
+                ], [
+                    'nama.unique' => 'kategori sudah tersedia',
+                ]);
+            }
+        }
+        $request->validate([
+            'nama' => 'required',
+            'desk' => 'required',
+        ], [
+            'nama.required' => 'Nama tidak boleh kosong',
+            'desk.required' => 'Deskripsi tidak boleh kosong',
+        ]);
+        if (Kategori::updateOrCreate([
+            'id_kategori' => $request->id_kategori,
+        ], [
+            'nama_kategori' => $request->nama,
+            'deskripsi' => $request->desk,
+            'slug' => Str::slug($request->nama),
+        ])) {
+            return redirect('/kategori-admin')->with('success', 'kategori berhasil dijalankan');
+        }
+        return back()->withErrors('Maaf Proses Gagal')->withInput();
+    }
+
+    public function addFakultas(Request $request)
+    {
+        if (empty($request->id_fakultas)) {
+            $request->validate([
+                'nama' => 'unique:fakultas,nama_fakultas',
+            ], [
+                'nama.unique' => 'fakultas sudah tersedia',
+            ]);
+            if ($request->foto) {
+                $path = $request->file('foto')->store('fakultas', ['disk' => 'public']);
+            } else {
+                $path = 'default.jpg';
+            }
+        }else{
+            $check = Fakultas::find($request->id_fakultas);
+            $path = $check->foto;
+            if ($check->nama_fakultas != $request->nama) {
+                $request->validate([
+                    'nama' => 'unique:fakultas,nama_fakultas',
+                ], [
+                    'nama.unique' => 'fakultas sudah tersedia',
+                ]);
+            } else if ($request->foto) {
+                if (Storage::delete('public/' . $check->foto)) {
+                    $path = $request->file('foto')->store('fakultas', ['disk' => 'public']);
+                }
+            }
+        }
+        $request->validate([
+            'nama' => 'required',
+            'desk' => 'required',
+            'foto' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ], [
+            'nama.required' => 'Nama tidak boleh kosong',
+            'desk.required' => 'Deskripsi tidak boleh kosong',
+            'foto.image' => 'Foto harus berupa gambar',
+            'foto.mimes' => 'Foto harus berupa gambar dengan format jpeg, png, jpg, gif, svg',
+            'foto.max' => 'Foto tidak boleh lebih dari 2MB',
+        ]);
+        if (Fakultas::updateOrCreate([
+            'id_fakultas' => $request->id_fakultas,
+        ], [
+            'nama_fakultas' => $request->nama,
+            'deskripsi' => $request->desk,
+            'foto' => $path,
+            'slug' => Str::slug($request->nama),
+        ])) {
+            return redirect('/fakultas-admin')->with('success', 'fakultas berhasil dijalankan');
+        }
+        return back()->withErrors('Maaf Proses Gagal')->withInput();
+    }
+
+    public function addProdi(Request $request)
+    {
+        if (empty($request->id_prodi)) {
+            $request->validate([
+                'nama' => 'unique:prodi,nama_prodi',
+            ], [
+                'nama.unique' => 'prodi sudah tersedia',
+            ]);
+            if ($request->foto) {
+                $path = $request->file('foto')->store('prodi', ['disk' => 'public']);
+            } else {
+                $path = 'default.jpg';
+            }
+        }else{
+            $check = Prodi::find($request->id_prodi);
+            $path = $check->foto;
+            if ($check->nama_prodi != $request->nama) {
+                $request->validate([
+                    'nama' => 'unique:prodi,nama_prodi',
+                ], [
+                    'nama.unique' => 'prodi sudah tersedia',
+                ]);
+            } else if ($request->foto) {
+                if (Storage::delete('public/' . $check->foto)) {
+                    $path = $request->file('foto')->store('prodi', ['disk' => 'public']);
+                }
+            }
+        }
+        $request->validate([
+            'nama' => 'required',
+            'desk' => 'required',
+            'foto' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ], [
+            'nama.required' => 'Nama tidak boleh kosong',
+            'desk.required' => 'Deskripsi tidak boleh kosong',
+            'foto.image' => 'Foto harus berupa gambar',
+            'foto.mimes' => 'Foto harus berupa gambar dengan format jpeg, png, jpg, gif, svg',
+            'foto.max' => 'Foto tidak boleh lebih dari 2MB',
+        ]);
+        if (Prodi::updateOrCreate([
+            'id_prodi' => $request->id_prodi,
+        ], [
+            'nama_prodi' => $request->nama,
+            'deskripsi' => $request->desk,
+            'foto' => $path,
+            'slug' => Str::slug($request->nama),
+        ])) {
+            return redirect('/prodi-admin')->with('success', 'prodi berhasil dijalankan');
         }
         return back()->withErrors('Maaf Proses Gagal')->withInput();
     }

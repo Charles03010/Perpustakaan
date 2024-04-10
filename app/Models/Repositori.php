@@ -9,4 +9,5 @@ class Repositori extends Model
 {
     use HasFactory;
     protected $table = 'repositori';
+    protected $primaryKey = 'id_repositori';
 }

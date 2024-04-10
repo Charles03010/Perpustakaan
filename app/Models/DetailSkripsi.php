@@ -9,4 +9,5 @@ class DetailSkripsi extends Model
 {
     use HasFactory;
     protected $table = 'detail_skripsi';
+    protected $primaryKey = 'id_skripsi';
 }
