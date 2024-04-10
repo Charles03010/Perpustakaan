@@ -31,7 +31,7 @@
                                         {{ empty($pengarang) ? 'Tambah Data Pengarang' : 'Edit Data Pengarang' }}</h5>
 
                                     <!-- Floating Labels Form -->
-                                    <form class="row g-3" action="{{ route('add.process') }}" method="POST" enctype="multipart/form-data">
+                                    <form class="row g-3" action="{{ route('addPengarang.process') }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         @if ($errors->any())
                                             <div
