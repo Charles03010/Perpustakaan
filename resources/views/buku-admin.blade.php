@@ -36,31 +36,33 @@
                                         <thead>
                                             <tr>
                                                 <th scope="col" colspan="2">No.</th>
-                                                <th scope="col">Nama</th>
-                                                <th scope="col">Email</th>
-                                                <th scope="col">No HP</th>
-                                                <th scope="col">Alamat</th>
+                                                <th scope="col">Foto</th>
+                                                <th scope="col">Judul</th>
+                                                <th scope="col">Tahun Terbit</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @dd($buku)
                                             @foreach ($buku as $item)
                                                 <tr class="align-middle">
                                                     <td class="max-content" scope="row">{{ $loop->iteration }}</td>
                                                     <td class="max-content">
-                                                        <a href="{{ route('delete-buku-admin',$item->id_buku) }}" class="w-3 p-2 rounded bg-danger me-2">
+                                                        <a href="{{ route('delete-buku-admin', $item->id_buku) }}"
+                                                            class="w-3 p-2 rounded bg-danger me-2">
                                                             <i class="bi bi-trash text-white"></i>
                                                         </a>
-                                                        <a href="{{ route('edit-buku-admin',$item->id_buku) }}" class="w-3 p-2 rounded bg-warning me-2">
+                                                        <a href="{{ route('edit-buku-admin', $item->id_buku) }}"
+                                                            class="w-3 p-2 rounded bg-warning me-2">
                                                             <i class="bi bi-pencil text-white"></i>
                                                         </a>
-                                                        <a href="{{ route('detail-buku-admin',$item->id_buku) }}" class="w-3 p-2 rounded bg-primary">
+                                                        <a href="{{ route('detail-buku-admin', $item->id_buku) }}"
+                                                            class="w-3 p-2 rounded bg-primary">
                                                             <i class="bi bi-eye text-white"></i>
                                                         </a>
                                                     </td>
-                                                    <td>{{ $item->nama_buku }}</td>
-                                                    <td>{{ $item->email }}</td>
-                                                    <td>{{ $item->no_hp }}</td>
-                                                    <td>{{ $item->alamat }}</td>
+                                                    <td>{{ $item->foto }}</td>
+                                                    <td>{{ $item->judul }}</td>
+                                                    <td>{{ $item->tahun_terbit }}</td>
                                                 </tr>
                                             @endforeach
 

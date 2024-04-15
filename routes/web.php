@@ -50,22 +50,30 @@ Route::middleware('auth')->group(function () {
             return view('pengarang-admin', ['pengarang' => Pengarang::all()]);
         })->name('pengarang-admin');
         Route::get('/penerbit-admin', function () {
-            return view('penerbit-admin',['penerbit' => Penerbit::all()]);
+            return view('penerbit-admin', ['penerbit' => Penerbit::all()]);
         })->name('penerbit-admin');
         Route::get('/kategori-admin', function () {
-            return view('kategori-admin',['kategori' => Kategori::all()]);
+            return view('kategori-admin', ['kategori' => Kategori::all()]);
         })->name('kategori-admin');
         Route::get('/fakultas-admin', function () {
-            return view('fakultas-admin',['fakultas' => Fakultas::all()]);
+            return view('fakultas-admin', ['fakultas' => Fakultas::all()]);
         })->name('fakultas-admin');
         Route::get('/prodi-admin', function () {
-            return view('prodi-admin',['prodi' => Prodi::all()]);
+            return view('prodi-admin', ['prodi' => Prodi::all()]);
         })->name('prodi-admin');
         Route::get('/buku-admin', function () {
-            return view('buku-admin',['buku' => DetailBuku::all()]);
+            $bukuList = [];
+            foreach (DetailBuku::all() as $buku) {
+                $bukuList[] = $buku->repo;
+            }
+            return view('buku-admin', ['buku' => $bukuList]);
+            // foreach (DetailBuku::all() as $buku) {
+            //     $buku->repo;
+            // }
+            // return view('buku-admin', ['buku' => DetailBuku::find(1)->repo]);
         })->name('buku-admin');
         Route::get('/skripsi-admin', function () {
-            return view('skripsi-admin',['skripsi' => DetailSkripsi::all()]);
+            return view('skripsi-admin', ['skripsi' => DetailSkripsi::all()]);
         })->name('skripsi-admin');
 
         // Pengarang
@@ -126,7 +134,7 @@ Route::middleware('auth')->group(function () {
             $kategori->delete();
             return redirect()->route('kategori-admin');
         })->name('delete-kategori-admin');
-        
+
         // Fakultas
         Route::get('/fakultas-admin/tambah', function () {
             return view('func.tambah-fakultas-admin');
@@ -144,7 +152,7 @@ Route::middleware('auth')->group(function () {
             $fakultas->delete();
             return redirect()->route('fakultas-admin');
         })->name('delete-fakultas-admin');
-        
+
         // prodi
         Route::get('/prodi-admin/tambah', function () {
             return view('func.tambah-prodi-admin');
@@ -165,7 +173,7 @@ Route::middleware('auth')->group(function () {
 
         // Buku
         Route::get('/buku-admin/tambah', function () {
-            return view('func.tambah-buku-admin');
+            return view('func.tambah-buku-admin', ['pengarang' => Pengarang::all(), 'penerbit' => Penerbit::all(), 'kategori' => Kategori::all()]);
         })->name('tambah-buku-admin');
         Route::post('/buku-admin/tambah', [AdminController::class, 'addBuku'])->name('addBuku.process');
         Route::get('/buku-admin/edit/{id}', function ($id) {

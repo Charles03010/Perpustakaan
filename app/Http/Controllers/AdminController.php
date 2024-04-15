@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DetailBuku;
 use App\Models\Fakultas;
 use App\Models\Kategori;
 use App\Models\Penerbit;
 use App\Models\Pengarang;
 use App\Models\pengguna;
 use App\Models\Prodi;
+use App\Models\Repositori;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -165,7 +168,7 @@ class AdminController extends Controller
             ], [
                 'nama.unique' => 'Kategori sudah tersedia',
             ]);
-        }else{
+        } else {
             $check = Kategori::find($request->id_kategori);
             if ($check->nama_kategori != $request->nama) {
                 $request->validate([
@@ -207,7 +210,7 @@ class AdminController extends Controller
             } else {
                 $path = 'default.jpg';
             }
-        }else{
+        } else {
             $check = Fakultas::find($request->id_fakultas);
             $path = $check->foto;
             if ($check->nama_fakultas != $request->nama) {
@@ -259,7 +262,7 @@ class AdminController extends Controller
             } else {
                 $path = 'default.jpg';
             }
-        }else{
+        } else {
             $check = Prodi::find($request->id_prodi);
             $path = $check->foto;
             if ($check->nama_prodi != $request->nama) {
@@ -296,5 +299,99 @@ class AdminController extends Controller
             return redirect('/prodi-admin')->with('success', 'prodi berhasil dijalankan');
         }
         return back()->withErrors('Maaf Proses Gagal')->withInput();
+    }
+
+    public function addBuku(Request $request)
+    {
+        // dd($request->all());
+        if (empty($request->id_buku)) {
+            $request->validate([
+                'judul' => 'unique:repositori,judul',
+                'isbn' => 'unique:detail_buku,isbn',
+            ], [
+                'judul.unique' => 'judul sudah tersedia',
+                'isbn.unique' => 'ISBN sudah tersedia',
+            ]);
+            if ($request->foto) {
+                $path = $request->file('foto')->store('buku', ['disk' => 'public']);
+            } else {
+                $path = 'default.jpg';
+            }
+        } else {
+            $checkBuku = DetailBuku::find($request->id_buku);
+            $checkRepo = DetailBuku::find($request->id_buku);
+            $path = $checkBuku->foto;
+            if ($checkRepo->judul != $request->judul) {
+                $request->validate([
+                    'judul' => 'unique:repositori,judul',
+                ], [
+                    'judul.unique' => 'judul sudah tersedia',
+                ]);
+            };
+            if ($checkBuku->isbn != $request->isbn) {
+                $request->validate([
+                    'isbn' => 'unique:detail_buku,isbn',
+                ], [
+                    'isbn.unique' => 'ISBN sudah tersedia',
+                ]);
+            };
+            if ($request->foto) {
+                if (Storage::delete('public/' . $checkBuku->foto)) {
+                    $path = $request->file('foto')->store('buku', ['disk' => 'public']);
+                }
+            }
+        }
+        $request->validate([
+            'judul' => 'required',
+            'desk' => 'required',
+            'id_pengarang' => 'required',
+            'id_penerbit' => 'required',
+            'id_kategori' => 'required',
+            'isbn' => 'required',
+            'jumlah' => 'required|numeric',
+            'foto' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ], [
+            'judul.required' => 'Judul tidak boleh kosong',
+            'desk.required' => 'Deskripsi tidak boleh kosong',
+            'id_pengarang.required' => 'Pengarang tidak boleh kosong',
+            'id_penerbit.required' => 'Penerbit tidak boleh kosong',
+            'id_kategori.required' => 'Kategori tidak boleh kosong',
+            'isbn.required' => 'ISBN tidak boleh kosong',
+            'jumlah.required' => 'Jumlah tidak boleh kosong',
+            'jumlah.numeric' => 'Jumlah harus berupa angka',
+            'foto.image' => 'Foto harus berupa gambar',
+            'foto.mimes' => 'Foto harus berupa gambar dengan format jpeg, png, jpg, gif, svg',
+            'foto.max' => 'Foto tidak boleh lebih dari 2MB',
+        ]);
+
+        if (empty($request->id_buku)) {
+            $Buku = new DetailBuku;
+            $Repo = new Repositori;
+        } else {
+            $Buku = DetailBuku::find($request->id_buku);
+            $Repo = Repositori::find($Buku->id_repositori);
+        }
+        $Repo->id_pengarang = $request->id_pengarang;
+        $Repo->id_penerbit = $request->id_penerbit;
+        $Repo->id_kategori = $request->id_kategori;
+        $Repo->judul = $request->judul;
+        $Repo->deskripsi = $request->desk;
+        $Repo->slug = Str::slug($request->judul);
+        $Repo->tahun_terbit = $request->tahun;
+
+        $Buku->isbn = $request->isbn;
+        $Buku->jumlah_buku = $request->jumlah;
+        $Buku->foto = $path;
+
+        try {
+            DB::transaction(function () use ($Buku, $Repo) {
+                $Repo->save();
+                $Buku->id_repositori = $Repo->id_repositori;
+                $Buku->save();
+            }, 2);
+            return redirect('/buku-admin')->with('success', 'buku berhasil dijalankan');
+        } catch (\Exception $e) {
+            return back()->withErrors('Maaf Proses Gagal')->withInput();
+        };
     }
 }
