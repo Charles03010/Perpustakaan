@@ -6,16 +6,16 @@
     <!-- ======= Header ======= -->
     @include('components.header')
 
-    @include('partials.sidebar', ['active' => 'buku'])
+    @include('partials.sidebar', ['active' => 'fakultas'])
 
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1>Buku</h1>
+            <h1>Fakultas</h1>
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('dashboard-admin') }}">Home</a></li>
-                    <li class="breadcrumb-item active">Buku</li>
+                    <li class="breadcrumb-item active">Fakultas</li>
                 </ol>
             </nav>
         </div><!-- End Page Title -->
@@ -26,8 +26,8 @@
                         <div class="col-xxl-12 col-md-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="card-title">Buku</h5>
-                                    <a href="{{ route('tambah-buku-admin') }}" class="btn btn-primary">
+                                    <h5 class="card-title">Fakultas</h5>
+                                    <a href="{{ route('tambah-fakultas-admin') }}" class="btn btn-primary">
                                         <i class="bi bi-plus-square"></i>
                                         Tambah Data
                                     </a>
@@ -36,33 +36,26 @@
                                         <thead>
                                             <tr>
                                                 <th scope="col" colspan="2">No.</th>
+                                                <th scope="col">Nama</th>
+                                                <th scope="col">Deskripsi</th>
                                                 <th scope="col">Foto</th>
-                                                <th scope="col">Judul</th>
-                                                <th scope="col" class="max-content">Tahun Terbit</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {{-- @dd($buku) --}}
-                                            @foreach ($buku as $item)
+                                            @foreach ($fakultas as $item)
                                                 <tr class="align-middle">
                                                     <td class="max-content" scope="row">{{ $loop->iteration }}</td>
                                                     <td class="max-content">
-                                                        <a href="{{ route('delete-buku-admin', $item[0]->id_buku) }}"
-                                                            class="w-3 p-2 rounded bg-danger me-2">
+                                                        <a href="{{ route('delete-fakultas-admin',$item->id_fakultas) }}" class="w-3 p-2 rounded bg-danger me-2">
                                                             <i class="bi bi-trash text-white"></i>
                                                         </a>
-                                                        <a href="{{ route('edit-buku-admin', $item[0]->id_buku) }}"
-                                                            class="w-3 p-2 rounded bg-warning me-2">
+                                                        <a href="{{ route('edit-fakultas-admin',$item->id_fakultas) }}" class="w-3 p-2 rounded bg-warning me-2">
                                                             <i class="bi bi-pencil text-white"></i>
                                                         </a>
-                                                        <a href="{{ route('detail-buku-admin', $item[0]->id_buku) }}"
-                                                            class="w-3 p-2 rounded bg-primary">
-                                                            <i class="bi bi-eye text-white"></i>
-                                                        </a>
                                                     </td>
-                                                    <td  class="max-content"><img src="{{asset('storage/'.$item[0]->foto)}}" style="width:10rem" alt="{{$item[1]->judul}}"></td>
-                                                    <td>{{ $item[1]->judul }}</td>
-                                                    <td>{{ $item[1]->tahun_terbit }}</td>
+                                                    <td>{{ $item->nama_fakultas }}</td>
+                                                    <td>{{ $item->deskripsi }}</td>
+                                                    <td><img style="width:10rem" src="{{ asset('storage/'.$item->foto) }}" alt="{{ $item->nama_fakultas }}"></td>
                                                 </tr>
                                             @endforeach
 

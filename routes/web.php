@@ -12,6 +12,7 @@ use App\Models\Penerbit;
 use App\Models\Pengarang;
 use App\Models\Prodi;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -64,13 +65,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/buku-admin', function () {
             $bukuList = [];
             foreach (DetailBuku::all() as $buku) {
-                $bukuList[] = $buku->repo;
+                $bukuList[] = [$buku, $buku->repo];
             }
             return view('buku-admin', ['buku' => $bukuList]);
-            // foreach (DetailBuku::all() as $buku) {
-            //     $buku->repo;
-            // }
-            // return view('buku-admin', ['buku' => DetailBuku::find(1)->repo]);
         })->name('buku-admin');
         Route::get('/skripsi-admin', function () {
             return view('skripsi-admin', ['skripsi' => DetailSkripsi::all()]);
@@ -178,19 +175,23 @@ Route::middleware('auth')->group(function () {
         Route::post('/buku-admin/tambah', [AdminController::class, 'addBuku'])->name('addBuku.process');
         Route::get('/buku-admin/edit/{id}', function ($id) {
             $buku = DetailBuku::findOrFail($id);
-            return view('func.tambah-buku-admin', ['buku' => $buku]);
+            return view('func.tambah-buku-admin', ['buku' => $buku, 'repo' => $buku->repo, 'pengarang' => Pengarang::all(), 'penerbit' => Penerbit::all(), 'kategori' => Kategori::all()]);
         })->name('edit-buku-admin');
         Route::get('/buku-admin/delete/{id}', function ($id) {
             $buku = DetailBuku::findOrFail($id);
+            $repo = $buku->repo;
             if ($buku->foto != 'default.jpg') {
                 Storage::delete('public/' . $buku->foto);
             };
-            $buku->delete();
+            DB::transaction(function () use ($buku, $repo) {
+                $repo->delete();
+                $buku->delete();
+            });
             return redirect()->route('buku-admin');
         })->name('delete-buku-admin');
         Route::get('/buku-admin/detail/{id}', function ($id) {
             $buku = DetailBuku::findOrFail($id);
-            return view('func.detail-buku-admin', ['buku' => $buku]);
+            return view('func.detail-buku-admin', ['buku' => $buku, 'repo' => $buku->repo, 'pengarang' => Pengarang::findOrFail($buku->repo->id_pengarang), 'penerbit' => Penerbit::findOrFail($buku->repo->id_penerbit), 'kategori' => Kategori::findOrFail($buku->repo->id_kategori)]);
         })->name('detail-buku-admin');
     });
 

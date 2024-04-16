@@ -303,7 +303,6 @@ class AdminController extends Controller
 
     public function addBuku(Request $request)
     {
-        // dd($request->all());
         if (empty($request->id_buku)) {
             $request->validate([
                 'judul' => 'unique:repositori,judul',
@@ -319,7 +318,7 @@ class AdminController extends Controller
             }
         } else {
             $checkBuku = DetailBuku::find($request->id_buku);
-            $checkRepo = DetailBuku::find($request->id_buku);
+            $checkRepo = Repositori::find($checkBuku->id_repositori);
             $path = $checkBuku->foto;
             if ($checkRepo->judul != $request->judul) {
                 $request->validate([

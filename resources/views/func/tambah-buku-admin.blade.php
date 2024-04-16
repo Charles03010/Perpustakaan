@@ -30,7 +30,6 @@
                                 <div class="card-body">
                                     <h5 class="card-title">
                                         {{ empty($buku) ? 'Tambah Data buku' : 'Edit Data buku' }}</h5>
-
                                     <!-- Floating Labels Form -->
                                     <form class="row g-3" action="{{ route('addBuku.process') }}" method="POST"
                                         enctype="multipart/form-data">
@@ -57,7 +56,7 @@
                                             <div class="form-floating">
                                                 <input type="text" class="form-control" id="judul"
                                                     placeholder="Judul Buku" name="judul"
-                                                    value="{{ empty($buku) ? old('judul') : $buku->judul }}" required>
+                                                    value="{{ empty($repo) ? old('judul') : $repo->judul }}" required>
                                                 <label for="judul">Judul Buku</label>
                                             </div>
                                         </div>
@@ -65,7 +64,7 @@
                                             <div class="form-floating">
                                                 <input type="text" class="form-control" id="tahun"
                                                     placeholder="Tahun Terbit Buku" name="tahun"
-                                                    value="{{ empty($buku) ? old('tahun') : $buku->tahun_terbit }}"
+                                                    value="{{ empty($repo) ? old('tahun') : $repo->tahun_terbit }}"
                                                     required>
                                                 <label for="tahun">Tahun Terbit buku</label>
                                             </div>
@@ -77,7 +76,7 @@
                                                     <option value="" hidden>Pilih Pengarang</option>
                                                     @foreach ($pengarang as $item)
                                                         <option value="{{ $item->id_pengarang }}"
-                                                            <?= (empty($buku) ? old('id_pengarang') : $buku->id_pengarang) == $item->id_pengarang ? 'selected' : '' ?>>
+                                                            <?= (empty($repo) ? old('id_pengarang') : $repo->id_pengarang) == $item->id_pengarang ? 'selected' : '' ?>>
                                                             {{ $item->id_pengarang.' - '.$item->nama }}</option>
                                                     @endforeach
                                                 </select>
@@ -91,7 +90,7 @@
                                                     <option value="" hidden>Pilih Penerbit</option>
                                                     @foreach ($penerbit as $item)
                                                         <option value="{{ $item->id_penerbit }}"
-                                                            <?= (empty($buku) ? old('id_penerbit') : $buku->id_penerbit) == $item->id_penerbit ? 'selected' : '' ?>>
+                                                            <?= (empty($repo) ? old('id_penerbit') : $repo->id_penerbit) == $item->id_penerbit ? 'selected' : '' ?>>
                                                             {{ $item->id_penerbit.' - '.$item->nama_penerbit }}</option>
                                                     @endforeach
                                                 </select>
@@ -105,7 +104,7 @@
                                                     <option value="" hidden>Pilih Kategori</option>
                                                     @foreach ($kategori as $item)
                                                         <option value="{{ $item->id_kategori }}"
-                                                            <?= (empty($buku) ? old('id_kategori') : $buku->id_kategori) == $item->id_kategori ? 'selected' : '' ?>>
+                                                            <?= (empty($repo) ? old('id_kategori') : $repo->id_kategori) == $item->id_kategori ? 'selected' : '' ?>>
                                                             {{ $item->id_kategori.' - '.$item->nama_kategori }}</option>
                                                     @endforeach
                                                 </select>
@@ -122,7 +121,7 @@
                                         <div class="col-12">
                                             <div class="form-floating">
                                                 <textarea class="form-control" placeholder="Deskripsi buku" id="floatingTextarea" style="height: 100px;" required
-                                                    name="desk">{{ empty($buku) ? old('desk') : $buku->deskripsi }}</textarea>
+                                                    name="desk">{{ empty($repo) ? old('desk') : $repo->deskripsi }}</textarea>
                                                 <label for="floatingTextarea">Deskripsi buku</label>
                                             </div>
                                         </div>
