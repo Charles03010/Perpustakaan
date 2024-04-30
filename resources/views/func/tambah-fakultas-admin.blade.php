@@ -4,7 +4,7 @@
 <body>
 
     <!-- ======= Header ======= -->
-    @include('components.header')
+    @include('partials.topnav')
 
     @include('partials.sidebar', ['active' => 'fakultas'])
 
