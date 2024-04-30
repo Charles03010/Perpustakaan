@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Model;
 
 class DetailSkripsi extends Model
@@ -19,4 +20,8 @@ class DetailSkripsi extends Model
         "id_prodi",
         "id_fakultas",
     ];
+    function repo(): HasOne
+    {
+        return $this->hasOne(Repositori::class, 'id_repositori', 'id_repositori');
+    }
 }

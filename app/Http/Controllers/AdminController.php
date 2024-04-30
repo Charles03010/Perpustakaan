@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DetailBuku;
+use App\Models\DetailSkripsi;
 use App\Models\Fakultas;
 use App\Models\Kategori;
 use App\Models\Penerbit;
@@ -347,6 +348,7 @@ class AdminController extends Controller
             'id_penerbit' => 'required',
             'id_kategori' => 'required',
             'isbn' => 'required',
+            'tahun' => 'required|numeric',
             'jumlah' => 'required|numeric',
             'foto' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ], [
@@ -356,6 +358,8 @@ class AdminController extends Controller
             'id_penerbit.required' => 'Penerbit tidak boleh kosong',
             'id_kategori.required' => 'Kategori tidak boleh kosong',
             'isbn.required' => 'ISBN tidak boleh kosong',
+            'tahun.required' => 'Tahun tidak boleh kosong',
+            'tahun.numeric' => 'Tahun harus berupa angka',
             'jumlah.required' => 'Jumlah tidak boleh kosong',
             'jumlah.numeric' => 'Jumlah harus berupa angka',
             'foto.image' => 'Foto harus berupa gambar',
@@ -389,6 +393,101 @@ class AdminController extends Controller
                 $Buku->save();
             }, 2);
             return redirect('/buku-admin')->with('success', 'buku berhasil dijalankan');
+        } catch (\Exception $e) {
+            return back()->withErrors('Maaf Proses Gagal')->withInput();
+        };
+    }
+
+    public function addSkripsi(Request $request)
+    {
+        if (empty($request->id_skripsi)) {
+            $request->validate([
+                'judul' => 'unique:repositori,judul',
+            ], [
+                'judul.unique' => 'judul sudah tersedia',
+            ]);
+            if ($request->file) {
+                $path = $request->file('file')->store('skripsi', ['disk' => 'public']);
+            } else {
+                $path = 'default.pdf';
+            }
+        } else {
+            $checkskripsi = DetailSkripsi::find($request->id_skripsi);
+            $checkRepo = Repositori::find($checkskripsi->id_repositori);
+            $path = $checkskripsi->file;
+            if ($checkRepo->judul != $request->judul) {
+                $request->validate([
+                    'judul' => 'unique:repositori,judul',
+                ], [
+                    'judul.unique' => 'judul sudah tersedia',
+                ]);
+            };
+            if ($request->file) {
+                if (Storage::delete('public/' . $checkskripsi->file)) {
+                    $path = $request->file('file')->store('skripsi', ['disk' => 'public']);
+                }
+            }
+        }
+        $request->validate([
+            'judul' => 'required',
+            'desk' => 'required',
+            'id_pengarang' => 'required',
+            'id_penerbit' => 'required',
+            'id_kategori' => 'required',
+            'tahun' => 'required|numeric',
+            "prodi" => "required",
+            "fakultas" => "required",
+            "status" => "required|in:pending,diterima,ditolak",
+            "pembimbing" => "required",
+            "penguji" => "required",
+            'file' => 'mimes:pdf,doc,docx|max:102400',
+        ], [
+            'judul.required' => 'Judul tidak boleh kosong',
+            'desk.required' => 'Deskripsi tidak boleh kosong',
+            'id_pengarang.required' => 'Pengarang tidak boleh kosong',
+            'id_penerbit.required' => 'Penerbit tidak boleh kosong',
+            'id_kategori.required' => 'Kategori tidak boleh kosong',
+            'tahun.required' => 'Tahun tidak boleh kosong',
+            'tahun.numeric' => 'Tahun harus berupa angka',
+            'prodi.required' => 'Prodi tidak boleh kosong',
+            'fakultas.required' => 'Fakultas tidak boleh kosong',
+            'status.required' => 'Status tidak boleh kosong',
+            'status.in' => 'Status harus berupa pending, diterima, ditolak',
+            'pembimbing.required' => 'Pembimbing tidak boleh kosong',
+            'penguji.required' => 'Penguji tidak boleh kosong',
+            'file.mimes' => 'File harus berupa file dengan format pdf, doc, docx',
+            'file.max' => 'File tidak boleh lebih dari 100MB',
+        ]);
+
+        if (empty($request->id_skripsi)) {
+            $Skripsi = new DetailSkripsi;
+            $Repo = new Repositori;
+        } else {
+            $Skripsi = DetailSkripsi::find($request->id_skripsi);
+            $Repo = Repositori::find($Skripsi->id_repositori);
+        }
+        $Repo->id_pengarang = $request->id_pengarang;
+        $Repo->id_penerbit = $request->id_penerbit;
+        $Repo->id_kategori = $request->id_kategori;
+        $Repo->judul = $request->judul;
+        $Repo->deskripsi = $request->desk;
+        $Repo->slug = Str::slug($request->judul);
+        $Repo->tahun_terbit = $request->tahun;
+
+        $Skripsi->status = $request->status;
+        $Skripsi->pembimbing = $request->pembimbing;
+        $Skripsi->penguji = $request->penguji;
+        $Skripsi->id_prodi = $request->prodi;
+        $Skripsi->id_fakultas = $request->fakultas;
+        $Skripsi->file = $path;
+
+        try {
+            DB::transaction(function () use ($Skripsi, $Repo) {
+                $Repo->save();
+                $Skripsi->id_repositori = $Repo->id_repositori;
+                $Skripsi->save();
+            }, 2);
+            return redirect('/skripsi-admin')->with('success', 'skripsi berhasil dijalankan');
         } catch (\Exception $e) {
             return back()->withErrors('Maaf Proses Gagal')->withInput();
         };

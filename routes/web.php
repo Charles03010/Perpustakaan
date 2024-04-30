@@ -70,7 +70,11 @@ Route::middleware('auth')->group(function () {
             return view('buku-admin', ['buku' => $bukuList]);
         })->name('buku-admin');
         Route::get('/skripsi-admin', function () {
-            return view('skripsi-admin', ['skripsi' => DetailSkripsi::all()]);
+            $skripsiList = [];
+            foreach (DetailSkripsi::all() as $skripsi) {
+                $skripsiList[] = [$skripsi, $skripsi->repo];
+            }
+            return view('skripsi-admin', ['skripsi' => $skripsiList]);
         })->name('skripsi-admin');
 
         // Pengarang
@@ -193,6 +197,37 @@ Route::middleware('auth')->group(function () {
             $buku = DetailBuku::findOrFail($id);
             return view('func.detail-buku-admin', ['buku' => $buku, 'repo' => $buku->repo, 'pengarang' => Pengarang::findOrFail($buku->repo->id_pengarang), 'penerbit' => Penerbit::findOrFail($buku->repo->id_penerbit), 'kategori' => Kategori::findOrFail($buku->repo->id_kategori)]);
         })->name('detail-buku-admin');
+
+        // Skripsi
+        Route::get('/skripsi-admin/tambah', function () {
+            return view('func.tambah-skripsi-admin', ['pengarang' => Pengarang::all(), 'penerbit' => Penerbit::all(), 'kategori' => Kategori::all(),"prodi"=>Prodi::all(),"fakultas"=>Fakultas::all()]);
+        })->name('tambah-skripsi-admin');
+        Route::post('/skripsi-admin/tambah', [AdminController::class, 'addskripsi'])->name('addskripsi.process');
+        Route::get('/skripsi-admin/edit/{id}', function ($id) {
+            $skripsi = Detailskripsi::findOrFail($id);
+            return view('func.tambah-skripsi-admin', ['skripsi' => $skripsi, 'repo' => $skripsi->repo, 'pengarang' => Pengarang::all(), 'penerbit' => Penerbit::all(), 'kategori' => Kategori::all(),"prodi"=>Prodi::all(),"fakultas"=>Fakultas::all()]);
+        })->name('edit-skripsi-admin');
+        Route::get('/skripsi-admin/delete/{id}', function ($id) {
+            $skripsi = Detailskripsi::findOrFail($id);
+            $repo = $skripsi->repo;
+            if ($skripsi->file != 'default.pdf') {
+                Storage::delete('public/' . $skripsi->file);
+            };
+            DB::transaction(function () use ($skripsi, $repo) {
+                $repo->delete();
+                $skripsi->delete();
+            });
+            return redirect()->route('skripsi-admin');
+        })->name('delete-skripsi-admin');
+        Route::get('/skripsi-admin/detail/{id}', function ($id) {
+            $skripsi = Detailskripsi::findOrFail($id);
+            return view('func.detail-skripsi-admin', ['skripsi' => $skripsi, 'repo' => $skripsi->repo, 'pengarang' => Pengarang::findOrFail($skripsi->repo->id_pengarang), 'penerbit' => Penerbit::findOrFail($skripsi->repo->id_penerbit), 'kategori' => Kategori::findOrFail($skripsi->repo->id_kategori),"prodi"=>Prodi::findOrFail($skripsi->id_prodi),"fakultas"=>Fakultas::findOrFail($skripsi->id_fakultas)]);
+        })->name('detail-skripsi-admin');
+        Route::get('/download/{file}', function (string $file) {
+            return redirect(Storage::url($file));
+        })->name('download')->where('file', '.*');;
+
+
     });
 
     Route::middleware('role:pengguna')->group(function () {
