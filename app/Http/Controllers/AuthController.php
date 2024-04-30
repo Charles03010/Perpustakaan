@@ -2,57 +2,39 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Models\pengguna;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    //
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
-        ], [
-            'email.required' => 'Email tidak boleh kosong',
-            'email.email' => 'Email tidak valid',
-            'password.required' => 'Password tidak boleh kosong'
-        ]);
-        if (auth()->attempt($request->only('email', 'password'))) {
+        $validated = $request->safe()->only(['email', 'password']);
+
+        if (auth()->attempt($validated)) {
             if (auth()->user()->role == 'admin') {
                 return redirect('/dashboard-admin');
-            }
-            elseif (auth()->user()->role == 'pengguna'){
+            } elseif (auth()->user()->role == 'pengguna') {
                 return redirect('/dashboard-pengguna');
             }
-        }else{
+        } else {
             return back()->withErrors('Email atau password salah')->withInput();
         }
     }
-    public function register(Request $request)
+    public function register(RegisterRequest $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|confirmed',
-            'password_confirmation' => 'required',
-            'name' => 'required',
-        ], [
-            'name.required' => 'Nama tidak boleh kosong',
-            'email.required' => 'Email tidak boleh kosong',
-            'email.email' => 'Email tidak valid',
-            'password.required' => 'Password tidak boleh kosong',
-            'password.confirmed' => 'Konfirmasi password tidak cocok',
-            'password_confirmation.required' => 'Konfirmasi password tidak boleh kosong',
-        ]);
+        $validated = $request->validated();
 
-        if(
-        pengguna::create([
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'nama' => $request->name,
-            'role' => 'pengguna'
-        ])){
+        if (
+            pengguna::create([
+                'email' => $validated['email'],
+                'password' => Hash::make($validated['password']),
+                'nama' => $validated['nama'],
+                'role' => 'pengguna'
+            ])
+        ) {
             return redirect('/login')->with('success', 'Registrasi Berhasil, Silahkan Login');
         };
         return back()->withErrors('Registrasi Gagal')->withInput();

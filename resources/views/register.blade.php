@@ -44,7 +44,7 @@
                                         @endif
                                         <div class="col-12">
                                             <label for="yourName" class="form-label">Your Name</label>
-                                            <input type="text" name="name" class="form-control" id="yourName"
+                                            <input type="text" name="nama" class="form-control" id="yourName"
                                                 required placeholder="Input your name">
                                             <div class="invalid-feedback">Please, enter your name!</div>
                                         </div>
