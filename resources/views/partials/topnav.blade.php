@@ -1,7 +1,7 @@
 <header id="header" class="header fixed-top d-flex align-items-center">
 
     <div class="d-flex align-items-center justify-content-between">
-        <a href="{{ route(Auth::user()->role == 'admin' ? 'dashboard-admin' : 'dashboard-pengguna') }}"
+        <a href="{{ route(Auth::user()->role == 'admin' ? 'admin.dashboard' : 'pengguna.dashboard') }}"
             class="logo d-flex align-items-center">
             <img src="{{asset('assets/img/logo.png')}}" alt="">
             <span class="d-none d-lg-block">NiceAdmin</span>

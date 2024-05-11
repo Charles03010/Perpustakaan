@@ -14,13 +14,12 @@
             <h1>Skripsi</h1>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('dashboard-admin') }}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
                     <li class="breadcrumb-item active">Skripsi</li>
                 </ol>
             </nav>
         </div><!-- End Page Title -->
 
-        {{-- @dd($pengarang, $penerbit, $kategori) --}}
         <section class="section dashboard">
             <div class="row">
                 <div class="col-lg-12">
@@ -31,7 +30,7 @@
                                     <h5 class="card-title">
                                         {{ empty($skripsi) ? 'Tambah Data Skripsi' : 'Edit Data Skripsi' }}</h5>
                                     <!-- Floating Labels Form -->
-                                    <form class="row g-3" action="{{ route('addskripsi.process') }}" method="POST"
+                                    <form class="row g-3" action="{{ route('admin.skripsi.store') }}" method="POST"
                                         enctype="multipart/form-data">
                                         @csrf
                                         @if ($errors->any())
@@ -62,11 +61,11 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-floating">
-                                                <input type="text" class="form-control" id="tahun"
-                                                    placeholder="Tahun Terbit skripsi" name="tahun"
-                                                    value="{{ empty($repo) ? old('tahun') : $repo->tahun_terbit }}"
+                                                <input type="text" class="form-control" id="tahun_terbit"
+                                                    placeholder="Tahun Terbit skripsi" name="tahun_terbit"
+                                                    value="{{ empty($repo) ? old('tahun_terbit') : $repo->tahun_terbit }}"
                                                     required>
-                                                <label for="tahun">Tahun Terbit Skripsi</label>
+                                                <label for="tahun_terbit">Tahun Terbit Skripsi</label>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -116,7 +115,7 @@
                                         <div class="col-md-6">
                                             <div class="form-floating mb-3">
                                                 <select class="form-select" id="floatingSelect" aria-label="State"
-                                                    name="prodi" required>
+                                                    name="id_prodi" required>
                                                     <option value="" hidden>Pilih Prodi</option>
                                                     @foreach ($prodi as $item)
                                                         <option value="{{ $item->id_prodi }}"
@@ -131,7 +130,7 @@
                                         <div class="col-md-6">
                                             <div class="form-floating mb-3">
                                                 <select class="form-select" id="floatingSelect" aria-label="State"
-                                                    name="fakultas" required>
+                                                    name="id_fakultas" required>
                                                     <option value="" hidden>Pilih Fakultas</option>
                                                     @foreach ($fakultas as $item)
                                                         <option value="{{ $item->id_fakultas }}"
@@ -168,7 +167,8 @@
                                             <div class="form-floating">
                                                 <input type="text" class="form-control" id="pembimbing"
                                                     placeholder="Pembimbing Skripsi" name="pembimbing"
-                                                    value="{{ empty($skripsi) ? old('pembimbing') : $skripsi->pembimbing }}" required>
+                                                    value="{{ empty($skripsi) ? old('pembimbing') : $skripsi->pembimbing }}"
+                                                    required>
                                                 <label for="pembimbing">Pembimbing Skripsi</label>
                                             </div>
                                         </div>
@@ -176,14 +176,15 @@
                                             <div class="form-floating">
                                                 <input type="text" class="form-control" id="penguji"
                                                     placeholder="Penguji Skripsi" name="penguji"
-                                                    value="{{ empty($skripsi) ? old('penguji') : $skripsi->penguji }}" required>
+                                                    value="{{ empty($skripsi) ? old('penguji') : $skripsi->penguji }}"
+                                                    required>
                                                 <label for="penguji">Penguji Skripsi</label>
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-floating">
                                                 <textarea class="form-control" placeholder="Deskripsi Skripsi" id="floatingTextarea" style="height: 100px;" required
-                                                    name="desk">{{ empty($repo) ? old('desk') : $repo->deskripsi }}</textarea>
+                                                    name="deskripsi">{{ empty($repo) ? old('deskripsi') : $repo->deskripsi }}</textarea>
                                                 <label for="floatingTextarea">Deskripsi Skripsi</label>
                                             </div>
                                         </div>
@@ -194,7 +195,7 @@
                                                 <label for="file">File</label>
                                             </div>
                                         </div>
-                                        
+
                                         <div class="text-center">
                                             <button type="submit" class="btn btn-primary">Submit</button>
                                         </div>
@@ -209,20 +210,7 @@
         </section>
 
     </main><!-- End #main -->
-
-    <!-- ======= Footer ======= -->
-    <footer id="footer" class="footer">
-        <div class="copyright">
-            &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
-        </div>
-        <div class="credits">
-            <!-- All the links in the footer should remain intact. -->
-            <!-- You can delete the links only if you purchased the pro version. -->
-            <!-- Licensing information: https://bootstrapmade.com/license/ -->
-            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-        </div>
-    </footer><!-- End Footer -->
+    @include('partials.footer')
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
             class="bi bi-arrow-up-short"></i></a>

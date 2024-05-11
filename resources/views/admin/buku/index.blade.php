@@ -14,7 +14,7 @@
             <h1>Buku</h1>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('dashboard-admin') }}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
                     <li class="breadcrumb-item active">Buku</li>
                 </ol>
             </nav>
@@ -27,7 +27,7 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">Buku</h5>
-                                    <a href="{{ route('tambah-buku-admin') }}" class="btn btn-primary">
+                                    <a href="{{ route('admin.buku.create') }}" class="btn btn-primary">
                                         <i class="bi bi-plus-square"></i>
                                         Tambah Data
                                     </a>
@@ -42,25 +42,32 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {{-- @dd($buku) --}}
                                             @foreach ($buku as $item)
                                                 <tr class="align-middle">
                                                     <td class="max-content" scope="row">{{ $loop->iteration }}</td>
                                                     <td class="max-content">
-                                                        <a href="{{ route('delete-buku-admin', $item[0]->id_buku) }}"
-                                                            class="w-3 p-2 rounded bg-danger me-2">
-                                                            <i class="bi bi-trash text-white"></i>
-                                                        </a>
-                                                        <a href="{{ route('edit-buku-admin', $item[0]->id_buku) }}"
-                                                            class="w-3 p-2 rounded bg-warning me-2">
-                                                            <i class="bi bi-pencil text-white"></i>
-                                                        </a>
-                                                        <a href="{{ route('detail-buku-admin', $item[0]->id_buku) }}"
-                                                            class="w-3 p-2 rounded bg-primary">
-                                                            <i class="bi bi-eye text-white"></i>
-                                                        </a>
+                                                        <form
+                                                            action="{{ route('admin.buku.destroy', $item[0]->id_buku) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit"
+                                                                class="w-3 p-2 rounded bg-danger me-2 border border-0">
+                                                                <i class="bi bi-trash text-white"></i>
+                                                            </button>
+                                                            <a href="{{ route('admin.buku.edit', $item[0]->id_buku) }}"
+                                                                class="w-3 p-2 rounded bg-warning me-2">
+                                                                <i class="bi bi-pencil text-white"></i>
+                                                            </a>
+                                                            <a href="{{ route('admin.buku.show', $item[0]->id_buku) }}"
+                                                                class="w-3 p-2 rounded bg-primary">
+                                                                <i class="bi bi-eye text-white"></i>
+                                                            </a>
+                                                        </form>
                                                     </td>
-                                                    <td  class="max-content"><img src="{{asset('storage/'.$item[0]->foto)}}" style="width:10rem" alt="{{$item[1]->judul}}"></td>
+                                                    <td class="max-content"><img
+                                                            src="{{ asset('storage/' . $item[0]->foto) }}"
+                                                            style="width:10rem" alt="{{ $item[1]->judul }}"></td>
                                                     <td>{{ $item[1]->judul }}</td>
                                                     <td>{{ $item[1]->tahun_terbit }}</td>
                                                 </tr>
@@ -78,20 +85,7 @@
         </section>
 
     </main><!-- End #main -->
-
-    <!-- ======= Footer ======= -->
-    <footer id="footer" class="footer">
-        <div class="copyright">
-            &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
-        </div>
-        <div class="credits">
-            <!-- All the links in the footer should remain intact. -->
-            <!-- You can delete the links only if you purchased the pro version. -->
-            <!-- Licensing information: https://bootstrapmade.com/license/ -->
-            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-        </div>
-    </footer><!-- End Footer -->
+    @include('partials.footer')
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
             class="bi bi-arrow-up-short"></i></a>

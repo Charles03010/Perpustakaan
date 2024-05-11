@@ -14,13 +14,12 @@
             <h1>Buku</h1>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('dashboard-admin') }}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
                     <li class="breadcrumb-item active">Buku</li>
                 </ol>
             </nav>
         </div><!-- End Page Title -->
 
-        {{-- @dd($pengarang, $penerbit, $kategori) --}}
         <section class="section dashboard">
             <div class="row">
                 <div class="col-lg-12">
@@ -31,7 +30,7 @@
                                     <h5 class="card-title">
                                         {{ empty($buku) ? 'Tambah Data buku' : 'Edit Data buku' }}</h5>
                                     <!-- Floating Labels Form -->
-                                    <form class="row g-3" action="{{ route('addBuku.process') }}" method="POST"
+                                    <form class="row g-3" action="{{ route('admin.buku.store') }}" method="POST"
                                         enctype="multipart/form-data">
                                         @csrf
                                         @if ($errors->any())
@@ -62,11 +61,11 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-floating">
-                                                <input type="text" class="form-control" id="tahun"
-                                                    placeholder="Tahun Terbit Buku" name="tahun"
-                                                    value="{{ empty($repo) ? old('tahun') : $repo->tahun_terbit }}"
+                                                <input type="text" class="form-control" id="tahun_terbit"
+                                                    placeholder="Tahun Terbit Buku" name="tahun_terbit"
+                                                    value="{{ empty($repo) ? old('tahun_terbit') : $repo->tahun_terbit }}"
                                                     required>
-                                                <label for="tahun">Tahun Terbit buku</label>
+                                                <label for="tahun_terbit">Tahun Terbit buku</label>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -121,7 +120,7 @@
                                         <div class="col-12">
                                             <div class="form-floating">
                                                 <textarea class="form-control" placeholder="Deskripsi buku" id="floatingTextarea" style="height: 100px;" required
-                                                    name="desk">{{ empty($repo) ? old('desk') : $repo->deskripsi }}</textarea>
+                                                    name="deskripsi">{{ empty($repo) ? old('deskripsi') : $repo->deskripsi }}</textarea>
                                                 <label for="floatingTextarea">Deskripsi buku</label>
                                             </div>
                                         </div>
@@ -136,11 +135,11 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-floating">
-                                                <input type="text" class="form-control" id="jumlah"
-                                                    placeholder="Jumlah Buku" name="jumlah"
-                                                    value="{{ empty($buku) ? old('jumlah') : $buku->jumlah_buku }}"
+                                                <input type="text" class="form-control" id="jumlah_buku"
+                                                    placeholder="Jumlah Buku" name="jumlah_buku"
+                                                    value="{{ empty($buku) ? old('jumlah_buku') : $buku->jumlah_buku }}"
                                                     required>
-                                                <label for="jumlah">Jumlah buku</label>
+                                                <label for="jumlah_buku">Jumlah buku</label>
                                             </div>
                                         </div>
                                         <div class="text-center">
@@ -157,20 +156,7 @@
         </section>
 
     </main><!-- End #main -->
-
-    <!-- ======= Footer ======= -->
-    <footer id="footer" class="footer">
-        <div class="copyright">
-            &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
-        </div>
-        <div class="credits">
-            <!-- All the links in the footer should remain intact. -->
-            <!-- You can delete the links only if you purchased the pro version. -->
-            <!-- Licensing information: https://bootstrapmade.com/license/ -->
-            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-        </div>
-    </footer><!-- End Footer -->
+@include('partials.footer')
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
             class="bi bi-arrow-up-short"></i></a>

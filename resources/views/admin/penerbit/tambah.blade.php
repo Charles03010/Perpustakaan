@@ -14,7 +14,7 @@
             <h1>Penerbit</h1>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('dashboard-admin') }}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
                     <li class="breadcrumb-item active">Penerbit</li>
                 </ol>
             </nav>
@@ -31,7 +31,7 @@
                                         {{ empty($penerbit) ? 'Tambah Data Penerbit' : 'Edit Data Penerbit' }}</h5>
 
                                     <!-- Floating Labels Form -->
-                                    <form class="row g-3" action="{{ route('addPenerbit.process') }}" method="POST"
+                                    <form class="row g-3" action="{{ route('admin.penerbit.store') }}" method="POST"
                                         enctype="multipart/form-data">
                                         @csrf
                                         @if ($errors->any())
@@ -50,16 +50,15 @@
                                         @isset($penerbit)
                                             @empty(!$penerbit)
                                                 <input type="hidden" name="id_penerbit" value="{{ $penerbit->id_penerbit }}">
-                                                <input type="hidden" name="fotoOld" value="{{ $penerbit->foto }}">
                                             @endempty
                                         @endisset
                                         <div class="col-md-6">
                                             <div class="form-floating">
-                                                <input type="text" class="form-control" id="nama"
-                                                    placeholder="Nama penerbit" name="nama"
-                                                    value="{{ empty($penerbit) ? old('nama') : $penerbit->nama_penerbit }}"
+                                                <input type="text" class="form-control" id="nama_penerbit"
+                                                    placeholder="Nama penerbit" name="nama_penerbit"
+                                                    value="{{ empty($penerbit) ? old('nama_penerbit') : $penerbit->nama_penerbit }}"
                                                     required>
-                                                <label for="nama">Nama penerbit</label>
+                                                <label for="nama_penerbit">Nama penerbit</label>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -73,11 +72,11 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-floating">
-                                                <input type="text" class="form-control" id="no"
-                                                    placeholder="Nomor Telepon penerbit" name="no"
-                                                    value="{{ empty($penerbit) ? old('no') : $penerbit->no_hp }}"
+                                                <input type="text" class="form-control" id="no_hp"
+                                                    placeholder="Nomor Telepon penerbit" name="no_hp"
+                                                    value="{{ empty($penerbit) ? old('no_hp') : $penerbit->no_hp }}"
                                                     required>
-                                                <label for="no">Nomor Telepon penerbit</label>
+                                                <label for="no_hp">Nomor Telepon penerbit</label>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -90,7 +89,7 @@
                                         <div class="col-6">
                                             <div class="form-floating">
                                                 <textarea class="form-control" placeholder="Deskripsi penerbit" id="floatingTextarea" style="height: 100px;" required
-                                                    name="desk">{{ empty($penerbit) ? old('desk') : $penerbit->deskripsi }}</textarea>
+                                                    name="deskripsi">{{ empty($penerbit) ? old('deskripsi') : $penerbit->deskripsi }}</textarea>
                                                 <label for="floatingTextarea">Deskripsi penerbit</label>
                                             </div>
                                         </div>
@@ -117,20 +116,7 @@
         </section>
 
     </main><!-- End #main -->
-
-    <!-- ======= Footer ======= -->
-    <footer id="footer" class="footer">
-        <div class="copyright">
-            &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
-        </div>
-        <div class="credits">
-            <!-- All the links in the footer should remain intact. -->
-            <!-- You can delete the links only if you purchased the pro version. -->
-            <!-- Licensing information: https://bootstrapmade.com/license/ -->
-            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-        </div>
-    </footer><!-- End Footer -->
+    @include('partials.footer')
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
             class="bi bi-arrow-up-short"></i></a>

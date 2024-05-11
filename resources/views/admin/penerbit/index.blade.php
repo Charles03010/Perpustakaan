@@ -6,16 +6,16 @@
     <!-- ======= Header ======= -->
     @include('partials.topnav')
 
-    @include('partials.sidebar', ['active' => 'pengarang'])
+    @include('partials.sidebar', ['active' => 'penerbit'])
 
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1>Pengarang</h1>
+            <h1>Penerbit</h1>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('dashboard-admin') }}">Home</a></li>
-                    <li class="breadcrumb-item active">Pengarang</li>
+                    <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+                    <li class="breadcrumb-item active">Penerbit</li>
                 </ol>
             </nav>
         </div><!-- End Page Title -->
@@ -26,8 +26,8 @@
                         <div class="col-xxl-12 col-md-12">
                             <div class="card">
                                 <div class="card-body">
-                                    <h5 class="card-title">Pengarang</h5>
-                                    <a href="{{ route('tambah-pengarang-admin') }}" class="btn btn-primary">
+                                    <h5 class="card-title">Penerbit</h5>
+                                    <a href="{{ route('admin.penerbit.create') }}" class="btn btn-primary">
                                         <i class="bi bi-plus-square"></i>
                                         Tambah Data
                                     </a>
@@ -43,21 +43,30 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($pengarang as $item)
+                                            @foreach ($penerbit as $item)
                                                 <tr class="align-middle">
                                                     <td class="max-content" scope="row">{{ $loop->iteration }}</td>
                                                     <td class="max-content">
-                                                        <a href="{{ route('delete-pengarang-admin',$item->id_pengarang) }}" class="w-3 p-2 rounded bg-danger me-2">
-                                                            <i class="bi bi-trash text-white"></i>
-                                                        </a>
-                                                        <a href="{{ route('edit-pengarang-admin',$item->id_pengarang) }}" class="w-3 p-2 rounded bg-warning me-2">
-                                                            <i class="bi bi-pencil text-white"></i>
-                                                        </a>
-                                                        <a href="{{ route('detail-pengarang-admin',$item->id_pengarang) }}" class="w-3 p-2 rounded bg-primary">
-                                                            <i class="bi bi-eye text-white"></i>
-                                                        </a>
+                                                        <form
+                                                            action="{{ route('admin.penerbit.destroy', $item->id_penerbit) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit"
+                                                                class="w-3 p-2 rounded bg-danger me-2 border border-0">
+                                                                <i class="bi bi-trash text-white"></i>
+                                                            </button>
+                                                            <a href="{{ route('admin.penerbit.edit', $item->id_penerbit) }}"
+                                                                class="w-3 p-2 rounded bg-warning me-2">
+                                                                <i class="bi bi-pencil text-white"></i>
+                                                            </a>
+                                                            <a href="{{ route('admin.penerbit.show', $item->id_penerbit) }}"
+                                                                class="w-3 p-2 rounded bg-primary">
+                                                                <i class="bi bi-eye text-white"></i>
+                                                            </a>
+                                                        </form>
                                                     </td>
-                                                    <td>{{ $item->nama }}</td>
+                                                    <td>{{ $item->nama_penerbit }}</td>
                                                     <td>{{ $item->email }}</td>
                                                     <td>{{ $item->no_hp }}</td>
                                                     <td>{{ $item->alamat }}</td>
@@ -76,20 +85,7 @@
         </section>
 
     </main><!-- End #main -->
-
-    <!-- ======= Footer ======= -->
-    <footer id="footer" class="footer">
-        <div class="copyright">
-            &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
-        </div>
-        <div class="credits">
-            <!-- All the links in the footer should remain intact. -->
-            <!-- You can delete the links only if you purchased the pro version. -->
-            <!-- Licensing information: https://bootstrapmade.com/license/ -->
-            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-        </div>
-    </footer><!-- End Footer -->
+    @include('partials.footer')
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
             class="bi bi-arrow-up-short"></i></a>

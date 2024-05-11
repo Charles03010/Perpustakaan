@@ -14,7 +14,7 @@
             <h1>Pengarang</h1>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('dashboard-admin') }}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
                     <li class="breadcrumb-item active">Pengarang</li>
                 </ol>
             </nav>
@@ -31,7 +31,7 @@
                                         {{ empty($pengarang) ? 'Tambah Data Pengarang' : 'Edit Data Pengarang' }}</h5>
 
                                     <!-- Floating Labels Form -->
-                                    <form class="row g-3" action="{{ route('addPengarang.process') }}" method="POST" enctype="multipart/form-data">
+                                    <form class="row g-3" action="{{ route('admin.pengarang.store') }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         @if ($errors->any())
                                             <div
@@ -50,7 +50,6 @@
                                             @empty(!$pengarang)
                                                 <input type="hidden" name="id_pengarang"
                                                     value="{{ $pengarang->id_pengarang }}">
-                                                <input type="hidden" name="fotoOld" value="{{ $pengarang->foto }}">
                                             @endempty
                                         @endisset
                                         <div class="col-md-4">
@@ -73,28 +72,28 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-floating">
-                                                <input type="text" class="form-control" id="no"
-                                                    placeholder="Nomor Telepon Pengarang" name="no"
-                                                    value="{{ empty($pengarang) ? old('no') : $pengarang->no_hp }}"
+                                                <input type="text" class="form-control" id="no_hp"
+                                                    placeholder="Nomor Telepon Pengarang" name="no_hp"
+                                                    value="{{ empty($pengarang) ? old('no_hp') : $pengarang->no_hp }}"
                                                     required>
-                                                <label for="no">Nomor Telepon Pengarang</label>
+                                                <label for="no_hp">Nomor Telepon Pengarang</label>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-floating">
-                                                <input type="text" class="form-control" id="pendidikanTerakhir"
+                                                <input type="text" class="form-control" id="pendidikan_terakhir"
                                                     placeholder="Pendidikan Terakhir Pengarang"
-                                                    name="pendidikanTerakhir"
-                                                    value="{{ empty($pengarang) ? old('pendidikanTerakhir') : $pengarang->pendidikan_terakhir }}">
-                                                <label for="pendidikanTerakhir">Pendidikan Terakhir Pengarang</label>
+                                                    name="pendidikan_terakhir"
+                                                    value="{{ empty($pengarang) ? old('pendidikan_terakhir') : $pengarang->pendidikan_terakhir }}">
+                                                <label for="pendidikan_terakhir">Pendidikan Terakhir Pengarang</label>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-floating">
-                                                <input type="text" class="form-control" id="pendidikanRiwayat"
-                                                    placeholder="Riwayat Pendidikan Pengarang" name="pendidikanRiwayat"
-                                                    value="{{ empty($pengarang) ? old('pendidikanRiwayat') : $pengarang->riwayat_pendidikan }}">
-                                                <label for="pendidikanRiwayat">Riwayat Pendidikan Pengarang</label>
+                                                <input type="text" class="form-control" id="riwayat_pendidikan"
+                                                    placeholder="Riwayat Pendidikan Pengarang" name="riwayat_pendidikan"
+                                                    value="{{ empty($pengarang) ? old('riwayat_pendidikan') : $pengarang->riwayat_pendidikan }}">
+                                                <label for="riwayat_pendidikan">Riwayat Pendidikan Pengarang</label>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
@@ -115,30 +114,30 @@
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-floating">
-                                                <input type="text" class="form-control" id="pengalamanKerja"
-                                                    placeholder="Pengalaman Kerja Pengarang" name="pengalamanKerja"
-                                                    value="{{ empty($pengarang) ? old('pengalamanKerja') : $pengarang->pengalaman_kerja }}">
-                                                <label for="pengalamanKerja">Pengalaman Kerja Pengarang</label>
+                                                <input type="text" class="form-control" id="pengalaman_kerja"
+                                                    placeholder="Pengalaman Kerja Pengarang" name="pengalaman_kerja"
+                                                    value="{{ empty($pengarang) ? old('pengalaman_kerja') : $pengarang->pengalaman_kerja }}">
+                                                <label for="pengalaman_kerja">Pengalaman Kerja Pengarang</label>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-floating">
-                                                <input type="text" class="form-control" id="riwayatPekerjaan"
-                                                    placeholder="Riwayat Pekerjaan Pengarang" name="riwayatPekerjaan"
-                                                    value="{{ empty($pengarang) ? old('riwayatPekerjaan') : $pengarang->riwayat_pekerjaan }}">
-                                                <label for="riwayatPekerjaan">Riwayat Pekerjaan Pengarang</label>
+                                                <input type="text" class="form-control" id="riwayat_pekerjaan"
+                                                    placeholder="Riwayat Pekerjaan Pengarang" name="riwayat_pekerjaan"
+                                                    value="{{ empty($pengarang) ? old('riwayat_pekerjaan') : $pengarang->riwayat_pekerjaan }}">
+                                                <label for="riwayat_pekerjaan">Riwayat Pekerjaan Pengarang</label>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-floating mb-3">
                                                 <select class="form-select" id="floatingSelect" aria-label="State"
-                                                    name="jenisKelamin" required>
+                                                    name="jenis_kelamin" required>
                                                     <option value="" hidden>Pilih Jenis Kelamin</option>
                                                     <option value="L"
-                                                        <?= (empty($pengarang) ? old('jenisKelamin') : $pengarang->jenis_kelamin) == 'L' ? 'selected' : '' ?>>
+                                                        <?= (empty($pengarang) ? old('jenis_kelamin') : $pengarang->jenis_kelamin) == 'L' ? 'selected' : '' ?>>
                                                         Laki-Laki</option>
                                                     <option value="P"
-                                                        <?= (empty($pengarang) ? old('jenisKelamin') : $pengarang->jenis_kelamin) == 'P' ? 'selected' : '' ?>>
+                                                        <?= (empty($pengarang) ? old('jenis_kelamin') : $pengarang->jenis_kelamin) == 'P' ? 'selected' : '' ?>>
                                                         Perempuan</option>
                                                 </select>
                                                 <label for="floatingSelect">Jenis Kelamin</label>
@@ -154,24 +153,24 @@
 
                                         <div class="col-md-6">
                                             <div class="form-floating">
-                                                <input type="text" class="form-control" id="tempatLahir"
-                                                    placeholder="Tempat Lahir Pengarang" name="tempatLahir" required
-                                                    value="{{ empty($pengarang) ? old('tempatLahir') : $pengarang->tempat_lahir }}">
-                                                <label for="tempatLahir">Tempat Lahir Pengarang</label>
+                                                <input type="text" class="form-control" id="tempat_lahir"
+                                                    placeholder="Tempat Lahir Pengarang" name="tempat_lahir" required
+                                                    value="{{ empty($pengarang) ? old('tempat_lahir') : $pengarang->tempat_lahir }}">
+                                                <label for="tempat_lahir">Tempat Lahir Pengarang</label>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-floating">
-                                                <input type="date" class="form-control" id="tanggalLahir"
-                                                    placeholder="Tanggal Lahir Pengarang" name="tanggalLahir" required
-                                                    value="{{ empty($pengarang) ? old('tanggalLahir') : $pengarang->tanggal_lahir }}">
-                                                <label for="tanggalLahir">Tanggal Lahir Pengarang</label>
+                                                <input type="date" class="form-control" id="tanggal_lahir"
+                                                    placeholder="Tanggal Lahir Pengarang" name="tanggal_lahir" required
+                                                    value="{{ empty($pengarang) ? old('tanggal_lahir') : $pengarang->tanggal_lahir }}">
+                                                <label for="tanggal_lahir">Tanggal Lahir Pengarang</label>
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-floating">
                                                 <textarea class="form-control" placeholder="Deskripsi Pengarang" id="floatingTextarea" style="height: 100px;"
-                                                    required name="desk">{{ empty($pengarang) ? old('desk') : $pengarang->deskripsi }}</textarea>
+                                                    required name="deskripsi">{{ empty($pengarang) ? old('deskripsi') : $pengarang->deskripsi }}</textarea>
                                                 <label for="floatingTextarea">Deskripsi Pengarang</label>
                                             </div>
                                         </div>
@@ -198,20 +197,7 @@
         </section>
 
     </main><!-- End #main -->
-
-    <!-- ======= Footer ======= -->
-    <footer id="footer" class="footer">
-        <div class="copyright">
-            &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
-        </div>
-        <div class="credits">
-            <!-- All the links in the footer should remain intact. -->
-            <!-- You can delete the links only if you purchased the pro version. -->
-            <!-- Licensing information: https://bootstrapmade.com/license/ -->
-            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-        </div>
-    </footer><!-- End Footer -->
+@include('partials.footer')
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
             class="bi bi-arrow-up-short"></i></a>

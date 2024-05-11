@@ -15,7 +15,7 @@ class AuthController extends Controller
 
         if (auth()->attempt($validated)) {
             if (auth()->user()->role == 'admin') {
-                return redirect('/dashboard-admin');
+                return redirect('/admin/dashboard');
             } elseif (auth()->user()->role == 'pengguna') {
                 return redirect('/dashboard-pengguna');
             }

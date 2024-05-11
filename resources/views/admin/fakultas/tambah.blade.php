@@ -6,16 +6,16 @@
     <!-- ======= Header ======= -->
     @include('partials.topnav')
 
-    @include('partials.sidebar', ['active' => 'prodi'])
+    @include('partials.sidebar', ['active' => 'fakultas'])
 
     <main id="main" class="main">
 
         <div class="pagetitle">
-            <h1>Prodi</h1>
+            <h1>Fakultas</h1>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('dashboard-admin') }}">Home</a></li>
-                    <li class="breadcrumb-item active">Prodi</li>
+                    <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+                    <li class="breadcrumb-item active">Fakultas</li>
                 </ol>
             </nav>
         </div><!-- End Page Title -->
@@ -28,10 +28,11 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">
-                                        {{ empty($prodi) ? 'Tambah Data Prodi' : 'Edit Data Prodi' }}</h5>
+                                        {{ empty($fakultas) ? 'Tambah Data Fakultas' : 'Edit Data Fakultas' }}</h5>
 
                                     <!-- Floating Labels Form -->
-                                    <form class="row g-3" action="{{ route('addProdi.process') }}" method="POST" enctype="multipart/form-data">
+                                    <form class="row g-3" action="{{ route('admin.fakultas.store') }}" method="POST"
+                                        enctype="multipart/form-data">
                                         @csrf
                                         @if ($errors->any())
                                             <div
@@ -46,18 +47,18 @@
                                                     aria-label="Close"></button>
                                             </div>
                                         @endif
-                                        @isset($prodi)
-                                            @empty(!$prodi)
-                                                <input type="hidden" name="id_prodi" value="{{ $prodi->id_prodi }}">
+                                        @isset($fakultas)
+                                            @empty(!$fakultas)
+                                                <input type="hidden" name="id_fakultas" value="{{ $fakultas->id_fakultas }}">
                                             @endempty
                                         @endisset
                                         <div class="col-md-6">
                                             <div class="form-floating">
-                                                <input type="text" class="form-control" id="nama"
-                                                    placeholder="Nama prodi" name="nama"
-                                                    value="{{ empty($prodi) ? old('nama') : $prodi->nama_prodi }}"
+                                                <input type="text" class="form-control" id="nama_fakultas"
+                                                    placeholder="Nama fakultas" name="nama_fakultas"
+                                                    value="{{ empty($fakultas) ? old('nama_fakultas') : $fakultas->nama_fakultas }}"
                                                     required>
-                                                <label for="nama">Nama prodi</label>
+                                                <label for="nama_fakultas">Nama fakultas</label>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -69,9 +70,9 @@
                                         </div>
                                         <div class="col-12">
                                             <div class="form-floating">
-                                                <textarea class="form-control" placeholder="Deskripsi prodi" id="floatingTextarea" style="height: 100px;" required
-                                                    name="desk">{{ empty($prodi) ? old('desk') : $prodi->deskripsi }}</textarea>
-                                                <label for="floatingTextarea">Deskripsi prodi</label>
+                                                <textarea class="form-control" placeholder="Deskripsi fakultas" id="floatingTextarea" style="height: 100px;" required
+                                                    name="deskripsi">{{ empty($fakultas) ? old('deskripsi') : $fakultas->deskripsi }}</textarea>
+                                                <label for="floatingTextarea">Deskripsi fakultas</label>
                                             </div>
                                         </div>
                                         <div class="text-center">
@@ -88,20 +89,7 @@
         </section>
 
     </main><!-- End #main -->
-
-    <!-- ======= Footer ======= -->
-    <footer id="footer" class="footer">
-        <div class="copyright">
-            &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
-        </div>
-        <div class="credits">
-            <!-- All the links in the footer should remain intact. -->
-            <!-- You can delete the links only if you purchased the pro version. -->
-            <!-- Licensing information: https://bootstrapmade.com/license/ -->
-            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-        </div>
-    </footer><!-- End Footer -->
+    @include('partials.footer')
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
             class="bi bi-arrow-up-short"></i></a>

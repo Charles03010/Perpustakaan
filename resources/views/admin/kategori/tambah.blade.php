@@ -14,7 +14,7 @@
             <h1>Kategori</h1>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('dashboard-admin') }}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
                     <li class="breadcrumb-item active">Kategori</li>
                 </ol>
             </nav>
@@ -31,7 +31,7 @@
                                         {{ empty($kategori) ? 'Tambah Data Kategori' : 'Edit Data Kategori' }}</h5>
 
                                     <!-- Floating Labels Form -->
-                                    <form class="row g-3" action="{{ route('addKategori.process') }}" method="POST">
+                                    <form class="row g-3" action="{{ route('admin.kategori.store') }}" method="POST">
                                         @csrf
                                         @if ($errors->any())
                                             <div
@@ -53,17 +53,17 @@
                                         @endisset
                                         <div class="col-md-12">
                                             <div class="form-floating">
-                                                <input type="text" class="form-control" id="nama"
-                                                    placeholder="Nama kategori" name="nama"
-                                                    value="{{ empty($kategori) ? old('nama') : $kategori->nama_kategori }}"
+                                                <input type="text" class="form-control" id="nama_kategori"
+                                                    placeholder="Nama kategori" name="nama_kategori"
+                                                    value="{{ empty($kategori) ? old('nama_kategori') : $kategori->nama_kategori }}"
                                                     required>
-                                                <label for="nama">Nama kategori</label>
+                                                <label for="nama_kategori">Nama kategori</label>
                                             </div>
                                         </div>
                                         <div class="col-12">
                                             <div class="form-floating">
                                                 <textarea class="form-control" placeholder="Deskripsi kategori" id="floatingTextarea" style="height: 100px;" required
-                                                    name="desk">{{ empty($kategori) ? old('desk') : $kategori->deskripsi }}</textarea>
+                                                    name="deskripsi">{{ empty($kategori) ? old('deskripsi') : $kategori->deskripsi }}</textarea>
                                                 <label for="floatingTextarea">Deskripsi kategori</label>
                                             </div>
                                         </div>
@@ -81,20 +81,7 @@
         </section>
 
     </main><!-- End #main -->
-
-    <!-- ======= Footer ======= -->
-    <footer id="footer" class="footer">
-        <div class="copyright">
-            &copy; Copyright <strong><span>NiceAdmin</span></strong>. All Rights Reserved
-        </div>
-        <div class="credits">
-            <!-- All the links in the footer should remain intact. -->
-            <!-- You can delete the links only if you purchased the pro version. -->
-            <!-- Licensing information: https://bootstrapmade.com/license/ -->
-            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
-            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-        </div>
-    </footer><!-- End Footer -->
+@include('partials.footer')
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
             class="bi bi-arrow-up-short"></i></a>
