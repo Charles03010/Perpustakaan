@@ -16,10 +16,10 @@ return new class extends Migration
             $table->foreignId('id_pengguna')->constrained('pengguna','id_pengguna')->cascadeOnDelete();
             $table->foreignId('id_repositori')->constrained('repositori','id_repositori')->cascadeOnDelete();
             $table->date('tanggal_pinjam');
-            $table->date('tanggal_kembali');
+            $table->date('tanggal_kembali')->nullable();
             $table->enum('status',['dipinjam','dikembalikan'])->default('dipinjam');
-            $table->string('denda');
-            $table->string('keterangan');
+            $table->string('denda')->nullable();
+            $table->string('keterangan')->nullable();
             $table->timestamps();
         });
     }

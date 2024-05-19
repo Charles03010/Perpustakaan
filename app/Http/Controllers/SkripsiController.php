@@ -26,7 +26,7 @@ class SkripsiController extends Controller
     }
     public function create()
     {
-        return view('admin.skripsi.tambah', ['pengarang' => Pengarang::all(), 'penerbit' => Penerbit::all(), 'kategori' => Kategori::all()]);
+        return view('admin.skripsi.tambah', ['pengarang' => Pengarang::all(), 'penerbit' => Penerbit::all(), 'kategori' => Kategori::all(),'prodi'=>Prodi::all(),'fakultas'=>Fakultas::all()]);
     }
     public function store(SkripsiRequest $request)
     {

@@ -9,7 +9,7 @@
         [
             'title' => 'Peminjaman',
             'icon' => 'today',
-            'url' => 'admin.peminjaman',
+            'url' => 'admin.peminjaman.index',
             'color' => $active == 'peminjaman' ? '' : 'collapsed',
         ],
         [

@@ -8,6 +8,7 @@ use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\PenerbitController;
 use App\Http\Controllers\PengarangController;
 use App\Http\Controllers\FakultasController;
+use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\SkripsiController;
 use Illuminate\Support\Facades\Storage;
@@ -41,8 +42,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:admin')->group(function () {
         Route::prefix('admin')->as('admin.')->group(function () {
             Route::get('dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-            Route::get('peminjaman', [AdminController::class, 'peminjaman'])->name('peminjaman');
-
+            Route::resource('peminjaman', PeminjamanController::class, ['except' => ['update']]);
             Route::resource('pengarang', PengarangController::class, ['except' => ['update']]);
             Route::resource('penerbit', PenerbitController::class, ['except' => ['update']]);
             Route::resource('kategori', KategoriController::class, ['except' => ['update', 'show']]);
@@ -54,7 +54,6 @@ Route::middleware('auth')->group(function () {
                 return redirect(Storage::url($file));
             })->name('download')->where('file', '.*');;
         });
-
     });
 
     Route::middleware('role:pengguna')->group(function () {
