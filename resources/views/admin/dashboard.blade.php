@@ -28,7 +28,7 @@
                         <div class="col-xxl-3 col-md-6">
                             <div class="card info-card sales-card">
                                 <div class="card-body">
-                                    <h5 class="card-title">Peminjaman <span>| Today</span></h5>
+                                    <h5 class="card-title">Peminjaman</h5>
 
                                     <div class="d-flex align-items-center">
                                         <div
@@ -36,10 +36,7 @@
                                             <i class="bi bi-bookmark"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6>145</h6>
-                                            <span class="text-success small pt-1 fw-bold">12%</span> <span
-                                                class="text-muted small pt-2 ps-1">increase</span>
-
+                                            <h6>{{ $graph[0] }}</h6>
                                         </div>
                                     </div>
                                 </div>
@@ -50,7 +47,7 @@
                         <div class="col-xxl-3 col-md-6">
                             <div class="card info-card sales-card">
                                 <div class="card-body">
-                                    <h5 class="card-title">Buku <span>| Today</span></h5>
+                                    <h5 class="card-title">Buku</h5>
 
                                     <div class="d-flex align-items-center">
                                         <div
@@ -58,10 +55,7 @@
                                             <i class="bi bi-book"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6>145</h6>
-                                            <span class="text-success small pt-1 fw-bold">12%</span> <span
-                                                class="text-muted small pt-2 ps-1">increase</span>
-
+                                            <h6>{{ $graph[1] }}</h6>
                                         </div>
                                     </div>
                                 </div>
@@ -72,7 +66,7 @@
                         <div class="col-xxl-3 col-md-6">
                             <div class="card info-card sales-card">
                                 <div class="card-body">
-                                    <h5 class="card-title">Skripsi <span>| Today</span></h5>
+                                    <h5 class="card-title">Skripsi</h5>
 
                                     <div class="d-flex align-items-center">
                                         <div
@@ -80,10 +74,7 @@
                                             <i class="bi bi-blockquote-left"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6>145</h6>
-                                            <span class="text-success small pt-1 fw-bold">12%</span> <span
-                                                class="text-muted small pt-2 ps-1">increase</span>
-
+                                            <h6>{{ $graph[2] }}</h6>
                                         </div>
                                     </div>
                                 </div>
@@ -94,7 +85,7 @@
                         <div class="col-xxl-3 col-md-6">
                             <div class="card info-card sales-card">
                                 <div class="card-body">
-                                    <h5 class="card-title">Pengguna <span>| Today</span></h5>
+                                    <h5 class="card-title">Pengguna</h5>
 
                                     <div class="d-flex align-items-center">
                                         <div
@@ -102,10 +93,7 @@
                                             <i class="bi bi-person-circle"></i>
                                         </div>
                                         <div class="ps-3">
-                                            <h6>145</h6>
-                                            <span class="text-success small pt-1 fw-bold">12%</span> <span
-                                                class="text-muted small pt-2 ps-1">increase</span>
-
+                                            <h6>{{ $graph[3] }}</h6>
                                         </div>
                                     </div>
                                 </div>
@@ -121,7 +109,7 @@
                                     <table class="table table-hover table-striped">
                                         <thead>
                                             <tr>
-                                                <th scope="col" colspan="2">No.</th>
+                                                <th scope="col">No.</th>
                                                 <th scope="col">Nama</th>
                                                 <th scope="col">Judul</th>
                                                 <th class="max-content" scope="col">Tanggal Pinjam</th>
@@ -130,22 +118,19 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr class="align-middle">
-                                                <td class="max-content" scope="row">1</td>
-                                                <td class="max-content">
-                                                  <a href="" class="w-3 p-2 rounded bg-danger me-2">
-                                                    <i class="bi bi-trash text-white"></i>
-                                                  </a>
-                                                  <a href="" class="w-3 p-2 rounded bg-warning">
-                                                    <i class="bi bi-pencil text-white"></i>
-                                                  </a>
-                                                </td>
-                                                <td class="max-content">Brandon Jacob</td>
-                                                <td>Designer</td>
-                                                <td>2016-05-25</td>
-                                                <td>2016-05-25</td>
-                                                <td><span class="badge rounded-pill bg-warning">Dipinjam</span></td>
-                                            </tr>
+                                            @foreach ($peminjaman as $item)
+                                                <tr class="align-middle">
+                                                    <td class="max-content" scope="row">{{ $loop->iteration }}</td>
+                                                    <td>{{ $item[1]->nama }}</td>
+                                                    <td>{{ $item[2]->judul }}</td>
+                                                    <td>{{ $item[0]->tanggal_pinjam }}</td>
+                                                    <td>{{ $item[0]->tanggal_kembali == '' ? '-' : $item[0]->tanggal_kembali }}
+                                                    </td>
+                                                    <td><span
+                                                            class="badge rounded-pill {{ $item[0]->status == 'dipinjam' ? 'bg-warning' : 'bg-success' }}">{{ $item[0]->status }}</span>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
 
                                         </tbody>
                                     </table>
@@ -159,7 +144,7 @@
         </section>
 
     </main><!-- End #main -->
-@include('partials.footer')
+    @include('partials.footer')
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
             class="bi bi-arrow-up-short"></i></a>
