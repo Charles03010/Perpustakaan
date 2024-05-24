@@ -25,7 +25,8 @@ use Illuminate\Support\Facades\Storage;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
+    // return view('welcome');
 });
 
 Route::get('/login', function () {
@@ -50,9 +51,6 @@ Route::middleware('auth')->group(function () {
             Route::resource('prodi', ProdiController::class, ['except' => ['update']]);
             Route::resource('buku', BukuController::class, ['except' => ['update']]);
             Route::resource('skripsi', SkripsiController::class, ['except' => ['update']]);
-            // Route::get('/download/{file}', function (string $file) {
-            //     return redirect(Storage::url($file));
-            // })->name('download')->where('file', '.*');;
         });
     });
 
