@@ -106,6 +106,9 @@
                                                 <select class="form-select" id="floatingSelect" aria-label="State"
                                                     name="status" required>
                                                     <option value="" hidden>Pilih Status</option>
+                                                    <option value="diajukan"
+                                                        <?= (empty($peminjaman) ? old('status') : $peminjaman->status) == 'diajukan' ? 'selected' : '' ?>>
+                                                        Diajukan</option>
                                                     <option value="dipinjam"
                                                         <?= (empty($peminjaman) ? old('status') : $peminjaman->status) == 'dipinjam' ? 'selected' : '' ?>>
                                                         Dipinjam</option>

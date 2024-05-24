@@ -33,6 +33,8 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
+                        <div id="my-qr-reader">
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary">Save changes</button>
@@ -73,35 +75,26 @@
                                             @foreach ($peminjaman as $item)
                                                 <tr class="align-middle">
                                                     <td class="max-content" scope="row">{{ $loop->iteration }}</td>
-                                                    @if (auth()->user()->role == 'admin')
-                                                        <td class="max-content">
-                                                            <form
-                                                                action="{{ route($role . '.peminjaman.destroy', $item[0]->id_peminjaman) }}"
-                                                                method="POST">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button type="submit"
-                                                                    class="w-3 p-2 rounded bg-danger me-2 border border-0">
-                                                                    <i class="bi bi-trash text-white"></i>
-                                                                </button>
-                                                                <a href="{{ route($role . '.peminjaman.edit', $item[0]->id_peminjaman) }}"
-                                                                    class="w-3 p-2 rounded bg-warning me-2">
-                                                                    <i class="bi bi-pencil text-white"></i>
-                                                                </a>
-                                                                <a href="{{ route($role . '.peminjaman.show', $item[0]->id_peminjaman) }}"
-                                                                    class="w-3 p-2 rounded bg-primary me-2">
-                                                                    <i class="bi bi-eye text-white"></i>
-                                                                </a>
-                                                            </form>
-                                                        </td>
-                                                    @else
-                                                        <td class="max-content">
-                                                            <a href="{{ route($role . '.peminjaman.show', $item[0]->id_peminjaman) }}"
+                                                    <td class="max-content">
+                                                        <form
+                                                            action="{{ route('admin.peminjaman.destroy', $item[0]->id_peminjaman) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit"
+                                                                class="w-3 p-2 rounded bg-danger me-2 border border-0">
+                                                                <i class="bi bi-trash text-white"></i>
+                                                            </button>
+                                                            <a href="{{ route('admin.peminjaman.edit', $item[0]->id_peminjaman) }}"
+                                                                class="w-3 p-2 rounded bg-warning me-2">
+                                                                <i class="bi bi-pencil text-white"></i>
+                                                            </a>
+                                                            <a href="{{ route('admin.peminjaman.show', $item[0]->id_peminjaman) }}"
                                                                 class="w-3 p-2 rounded bg-primary me-2">
                                                                 <i class="bi bi-eye text-white"></i>
                                                             </a>
-                                                        </td>
-                                                    @endif
+                                                        </form>
+                                                    </td>
                                                     <td>{{ $item[1]->nama }}</td>
                                                     <td>{{ $item[2]->judul }}</td>
                                                     <td>{{ $item[0]->tanggal_pinjam }}</td>
@@ -123,6 +116,32 @@
                 </div>
             </div>
         </section>
+        <script>
+            function domReady(fn) {
+                if (
+                    document.readyState === "complete" ||
+                    document.readyState === "interactive"
+                ) {
+                    setTimeout(fn, 1000);
+                } else {
+                    document.addEventListener("DOMContentLoaded", fn);
+                }
+            }
+
+            domReady(function() {
+                function onScanSuccess(decodeText, decodeResult) {
+                    $decoded = JSON.parse(decodeText);
+                    window.location.replace(window.location.href+`/${$decoded.id_peminjaman}`+`/edit`);
+                }
+                let htmlscanner = new Html5QrcodeScanner(
+                    "my-qr-reader", {
+                        fps: 10,
+                        qrbos: 250,
+                    }
+                );
+                htmlscanner.render(onScanSuccess);
+            });
+        </script>
     </main><!-- End #main -->
     @include('partials.footer')
 
