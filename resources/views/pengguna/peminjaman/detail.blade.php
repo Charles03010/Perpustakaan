@@ -29,8 +29,6 @@
                                 <div class="card-body">
                                     <h5 class="card-title">Detail Data Peminjaman</h5>
                                     <div class="d-flex align-items-start">
-                                        {{-- <img class="w-25 me-3" src="{{ asset('storage/' . $peminjaman->foto) }}"
-                                            alt="Foto peminjaman"> --}}
                                         <dl class="row">
                                             <dt class="col-sm-3 mb-3">Status</dt>
                                             <dd class="col-sm-9">
@@ -47,7 +45,7 @@
                                             <dd class="col-sm-9">{{ $repositori->judul }}</dd>
 
                                             <dt class="col-sm-3 mb-3">Tanggal Pinjam</dt>
-                                            <dd class="col-sm-9">{{ $peminjaman->tanggal_pinjam }}</dd>
+                                            <dd class="col-sm-9">{{ $peminjaman->tanggal_pinjam  == '' ? '-' : $peminjaman->tanggal_pinjam}}</dd>
 
                                             <dt class="col-sm-3 mb-3">Tanggal Kembali</dt>
                                             <dd class="col-sm-9">
@@ -65,6 +63,7 @@
                                             </dd>
 
                                         </dl>
+                                        {!! $qr !!}
                                     </div>
                                 </div>
                             </div>

@@ -9,6 +9,7 @@ use App\Http\Controllers\PenerbitController;
 use App\Http\Controllers\PengarangController;
 use App\Http\Controllers\FakultasController;
 use App\Http\Controllers\PeminjamanController;
+use App\Http\Controllers\PeminjamanPenggunaController;
 use App\Http\Controllers\ProdiController;
 use App\Http\Controllers\SkripsiController;
 use Illuminate\Support\Facades\Storage;
@@ -57,7 +58,8 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:pengguna')->group(function () {
         Route::prefix('pengguna')->as('pengguna.')->group(function () {
             Route::get('dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-            Route::resource('peminjaman', PeminjamanController::class, ['except' => ['update']]);
+            Route::resource('peminjaman', PeminjamanPenggunaController::class, ['except' => ['update']]);
+
             Route::resource('skripsi', SkripsiController::class, ['except' => ['update']]);
         });
     });

@@ -127,7 +127,7 @@
                                                     <td>{{ $item[0]->tanggal_kembali == '' ? '-' : $item[0]->tanggal_kembali }}
                                                     </td>
                                                     <td><span
-                                                            class="badge rounded-pill {{ $item[0]->status == 'dipinjam' ? 'bg-warning' : 'bg-success' }}">{{ $item[0]->status }}</span>
+                                                        class="badge rounded-pill {{ $item[0]->status == 'dipinjam' ? 'bg-warning' : ($item[0]->status == 'dikembalikan' ? 'bg-success' : ($item[0]->status == 'diajukan' ? 'bg-primary' : '')) }}">{{ $item[0]->status }}</span>
                                                     </td>
                                                 </tr>
                                             @endforeach
