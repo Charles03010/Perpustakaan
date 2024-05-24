@@ -1,4 +1,10 @@
-@include('partials.header', ['title' => 'Dashboard Admin'])
+@php
+    if (auth()->user()->role == 'admin') {
+        $role = 'admin';
+    }
+    $role = 'pengguna';
+@endphp
+@include('partials.header', ['title' => 'Dashboard ' . ucwords($role)])
 @include('partials.scripts')
 
 <body>
@@ -14,7 +20,7 @@
             <h1>Skripsi</h1>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route($role . '.dashboard') }}">Home</a></li>
                     <li class="breadcrumb-item active">Skripsi</li>
                 </ol>
             </nav>
@@ -70,7 +76,7 @@
                                             </dd>
                                         </dl>
                                     </div>
-                                    <a class="btn btn-primary" href="{!! route('admin.download', $skripsi->file) !!}">Unduh Skripsi</a>
+                                    <a class="btn btn-primary" href="{!! route('download', $skripsi->file) !!}">Unduh Skripsi</a>
                                 </div>
                             </div>
                         </div>

@@ -17,7 +17,7 @@ class AuthController extends Controller
             if (auth()->user()->role == 'admin') {
                 return redirect('/admin/dashboard');
             } elseif (auth()->user()->role == 'pengguna') {
-                return redirect('/dashboard-pengguna');
+                return redirect('/pengguna/dashboard');
             }
         } else {
             return back()->withErrors('Email atau password salah')->withInput();

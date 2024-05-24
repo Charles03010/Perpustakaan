@@ -50,15 +50,20 @@ Route::middleware('auth')->group(function () {
             Route::resource('prodi', ProdiController::class, ['except' => ['update']]);
             Route::resource('buku', BukuController::class, ['except' => ['update']]);
             Route::resource('skripsi', SkripsiController::class, ['except' => ['update']]);
-            Route::get('/download/{file}', function (string $file) {
-                return redirect(Storage::url($file));
-            })->name('download')->where('file', '.*');;
+            // Route::get('/download/{file}', function (string $file) {
+            //     return redirect(Storage::url($file));
+            // })->name('download')->where('file', '.*');;
         });
     });
 
     Route::middleware('role:pengguna')->group(function () {
-        Route::get('/dashboard-pengguna', function () {
-            return view('dashboard-pengguna');
+        Route::prefix('pengguna')->as('pengguna.')->group(function () {
+            Route::get('dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+            Route::resource('peminjaman', PeminjamanController::class, ['except' => ['update']]);
+            Route::resource('skripsi', SkripsiController::class, ['except' => ['update']]);
         });
     });
+    Route::get('/download/{file}', function (string $file) {
+        return redirect(Storage::url($file));
+    })->name('download')->where('file', '.*');;
 });
