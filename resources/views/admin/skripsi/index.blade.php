@@ -1,10 +1,4 @@
-@php
-    if (auth()->user()->role == 'admin') {
-        $role = 'admin';
-    }
-    $role = 'pengguna';
-@endphp
-@include('partials.header', ['title' => 'Dashboard ' . ucwords($role)])
+@include('partials.header', ['title' => 'Dashboard Admin'])
 @include('partials.scripts')
 
 <body>
@@ -19,7 +13,7 @@
             <h1>Skripsi</h1>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route($role . '.dashboard') }}">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Home</a></li>
                     <li class="breadcrumb-item active">Skripsi</li>
                 </ol>
             </nav>
@@ -32,12 +26,10 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">Skripsi</h5>
-                                    @if ($role == 'admin')
-                                        <a href="{{ route($role . '.skripsi.create') }}" class="btn btn-primary">
-                                            <i class="bi bi-plus-square"></i>
-                                            Tambah Data
-                                        </a>
-                                    @endif
+                                    <a href="{{ route('admin.skripsi.create') }}" class="btn btn-primary">
+                                        <i class="bi bi-plus-square"></i>
+                                        Tambah Data
+                                    </a>
                                     <!-- Table with hoverable rows -->
                                     <table class="table table-hover table-striped">
                                         <thead>
@@ -52,35 +44,26 @@
                                             @foreach ($skripsi as $item)
                                                 <tr class="align-middle">
                                                     <td class="max-content" scope="row">{{ $loop->iteration }}</td>
-                                                    @if ($role == 'admin')
-                                                        <td class="max-content">
-                                                            <form
-                                                                action="{{ route($role . '.skripsi.destroy', $item[0]->id_skripsi) }}"
-                                                                method="POST">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button type="submit"
-                                                                    class="w-3 p-2 rounded bg-danger me-2 border border-0">
-                                                                    <i class="bi bi-trash text-white"></i>
-                                                                </button>
-                                                                <a href="{{ route($role . '.skripsi.edit', $item[0]->id_skripsi) }}"
-                                                                    class="w-3 p-2 rounded bg-warning me-2">
-                                                                    <i class="bi bi-pencil text-white"></i>
-                                                                </a>
-                                                                <a href="{{ route($role . '.skripsi.show', $item[0]->id_skripsi) }}"
-                                                                    class="w-3 p-2 rounded bg-primary">
-                                                                    <i class="bi bi-eye text-white"></i>
-                                                                </a>
-                                                            </form>
-                                                        </td>
-                                                    @else
-                                                        <td class="max-content">
-                                                            <a href="{{ route($role . '.skripsi.show', $item[0]->id_skripsi) }}"
+                                                    <td class="max-content">
+                                                        <form
+                                                            action="{{ route('admin.skripsi.destroy', $item[0]->id_skripsi) }}"
+                                                            method="POST">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit"
+                                                                class="w-3 p-2 rounded bg-danger me-2 border border-0">
+                                                                <i class="bi bi-trash text-white"></i>
+                                                            </button>
+                                                            <a href="{{ route('admin.skripsi.edit', $item[0]->id_skripsi) }}"
+                                                                class="w-3 p-2 rounded bg-warning me-2">
+                                                                <i class="bi bi-pencil text-white"></i>
+                                                            </a>
+                                                            <a href="{{ route('admin.skripsi.show', $item[0]->id_skripsi) }}"
                                                                 class="w-3 p-2 rounded bg-primary">
                                                                 <i class="bi bi-eye text-white"></i>
                                                             </a>
-                                                        </td>
-                                                    @endif
+                                                        </form>
+                                                    </td>
                                                     <td>{{ $item[1]->judul }}</td>
                                                     <td>{{ $item[1]->tahun_terbit }}</td>
                                                     <td>
