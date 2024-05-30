@@ -13,6 +13,7 @@ use App\Models\Repositori;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use RealRashid\SweetAlert\Facades\Alert;
+use ZipArchive;
 
 class SkripsiController extends Controller
 {
@@ -26,7 +27,7 @@ class SkripsiController extends Controller
     }
     public function create()
     {
-        return view('admin.skripsi.tambah', ['pengarang' => Pengarang::all(), 'penerbit' => Penerbit::all(), 'kategori' => Kategori::all(),'prodi'=>Prodi::all(),'fakultas'=>Fakultas::all()]);
+        return view('admin.skripsi.tambah', ['pengarang' => Pengarang::all(), 'penerbit' => Penerbit::all(), 'kategori' => Kategori::all(), 'prodi' => Prodi::all(), 'fakultas' => Fakultas::all()]);
     }
     public function store(SkripsiRequest $request)
     {
@@ -90,7 +91,30 @@ class SkripsiController extends Controller
     public function show($id)
     {
         $skripsi = DetailSkripsi::findOrFail($id);
-        return view('admin.skripsi.detail', ['skripsi' => $skripsi, 'repo' => $skripsi->repo, 'pengarang' => Pengarang::findOrFail($skripsi->repo->id_pengarang), 'penerbit' => Penerbit::findOrFail($skripsi->repo->id_penerbit), 'kategori' => Kategori::findOrFail($skripsi->repo->id_kategori), "prodi" => Prodi::findOrFail($skripsi->id_prodi), "fakultas" => Fakultas::findOrFail($skripsi->id_fakultas)]);
+        $zipFile = $skripsi->file;
+        $zip = new ZipArchive;
+        if ($zip->open(storage_path('app/public/' . $zipFile)) === true) {
+            $extractPath = storage_path('app/public/extraction');
+            $zip->extractTo($extractPath);
+            $files = [];
+            for ($i = 0; $i < $zip->numFiles; $i++) {
+                $filename = $zip->getNameIndex($i);
+                $files[] = $filename;
+            }
+            $zip->close();
+            // Now you can work with the extracted files array
+            // For example, you can loop through the files and do something with each file
+            // foreach ($files as $file) {
+            //     // Do something with each file
+            //     // For example, you can move the file to a different location
+            //     $newLocation = storage_path('app/public/destination') . '/' . $file;
+            //     rename($extractPath . '/' . $file, $newLocation);
+            // }
+        } else {
+            // Handle error when opening the zip file
+        }
+        // dd(Storage::get('public/'.$zipFile));
+        return view('admin.skripsi.detail', ['skripsi' => $skripsi, 'repo' => $skripsi->repo, 'pengarang' => Pengarang::findOrFail($skripsi->repo->id_pengarang), 'penerbit' => Penerbit::findOrFail($skripsi->repo->id_penerbit), 'kategori' => Kategori::findOrFail($skripsi->repo->id_kategori), "prodi" => Prodi::findOrFail($skripsi->id_prodi), "fakultas" => Fakultas::findOrFail($skripsi->id_fakultas), 'files' => $files]);
     }
     public function edit($id)
     {
@@ -114,4 +138,18 @@ class SkripsiController extends Controller
         Alert::error('Error', 'skripsi gagal dihapus');
         return back()->withErrors('Maaf Proses Gagal');
     }
+    // public function test()
+    // {
+    //     $dir_path = date('Y') . '/' . date('m') . '/';
+    //     $file = request()->file('zip_file');
+    //     $zip = new ZipArchive();
+    //     $file_new_path = $file->storeAs($dir_path . 'zip' , $filename, 'local');
+    //     $zipFile = $zip->open(Storage::disk('local'.)->path($file_new_path));
+    //     if ($zipFile === TRUE) {
+    //         $zip->extractTo(Storage::disk('local')->path($dir_path . 'zip')); 
+    //         $zip->close();
+    //     }
+
+    //     return view('admin.skripsi.test');
+    // }
 }

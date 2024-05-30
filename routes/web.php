@@ -64,6 +64,8 @@ Route::middleware('auth')->group(function () {
         });
     });
     Route::get('/download/{file}', function (string $file) {
-        return redirect(Storage::url($file));
+        // dd(Storage::download('public/extraction/' . $file, $file));
+        return Storage::disk('public')->download('extraction/' . $file);
+        return redirect(Storage::download('public/extraction/' . $file, $file,['Content-Type' => 'application/pdf']));
     })->name('download')->where('file', '.*');;
 });

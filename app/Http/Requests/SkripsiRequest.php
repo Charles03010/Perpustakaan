@@ -33,7 +33,7 @@ class SkripsiRequest extends FormRequest
             "status" => "required|in:pending,diterima,ditolak",
             "pembimbing" => "required",
             "penguji" => "required",
-            'file' => 'mimes:pdf,doc,docx|max:102400',
+            'file' => 'mimes:zip,rar|max:102400',
         ];
     }
     public function messages()

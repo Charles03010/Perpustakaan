@@ -76,7 +76,9 @@
                                             </dd>
                                         </dl>
                                     </div>
-                                    <a class="btn btn-primary" href="{!! route('download', $skripsi->file) !!}">Unduh Skripsi</a>
+                                    @foreach ($files as $item)                                        
+                                    <a class="btn btn-primary" href="{!! route('download', $item) !!}">Bab {{ $loop->iteration }}</a>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>

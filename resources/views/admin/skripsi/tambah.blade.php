@@ -191,7 +191,7 @@
                                         <div class="col-md-6">
                                             <div class="form-floating">
                                                 <input type="file" class="form-control" id="file"
-                                                    placeholder="File" name="file" accept=".pdf, .doc, .docx">
+                                                    placeholder="File" name="file" accept=".zip, .rar">
                                                 <label for="file">File</label>
                                             </div>
                                         </div>
